@@ -1,6 +1,10 @@
 {% extends 'master.html' %}
 
 {% block content %}
-    <h1>Welcome to my website</h1>
+    
+    {% if user.admin %}
+    <h1>Welcome to my Admin page</h1>
+    {% endif %}
+        
 {% endblock content %}
     

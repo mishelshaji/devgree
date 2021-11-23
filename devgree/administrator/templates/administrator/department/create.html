@@ -1,0 +1,60 @@
+{% extends 'master.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<h1 class="font-bold text-2xl">Create New Department</h1>
+<hr/>
+<div class="container mt-4">
+    <form method="post">
+        <div class="grid grid-cols-2 gap-3">
+            <div class="col-span-2">
+                <label>{{ form.name.label }}</label>
+                {% render_field form.name class="form-input w-full rounded" %}
+
+                {% if form.username.errors %}
+                <div class="text-red-600">
+                    {{ form.username.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label>{{ form.phone.label }}</label>
+                {% render_field form.phone class="form-input w-full rounded" %}
+
+                {% if form.phone.errors %}
+                <div class="text-red-600">
+                    {{ form.phone.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label>{{ form.email.label }}</label>
+                {% render_field form.email class="form-input w-full rounded" %}
+
+                {% if form.email.errors %}
+                <div class="text-red-600">
+                    {{ form.email.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-span-2">
+                <label>{{ form.description.label }}</label>
+                {% render_field form.description class="form-input w-full rounded" %}
+
+                {% if form.description.errors %}
+                <div class="text-red-600">
+                    {{ form.description.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% csrf_token %}
+        <div class="flex mt-2">
+            <button class="ml-auto bg-indigo-600 p-2 rounded text-white">Save</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

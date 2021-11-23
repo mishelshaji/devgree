@@ -1,0 +1,32 @@
+{% extends 'master.html' %}
+
+{% block content %}
+<div class="flex">
+    <a href="{% url 'department_create' %}" class="ml-auto bg-indigo-600 p-2 rounded text-white">
+        + New Department
+    </a>
+</div>
+<h1 class="font-bold text-2xl">Create New Department</h1>
+<hr/>
+<div class="container mt-4">
+    <table class="table border table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+        {% for i in object_list %}
+        <tr>
+            <td>{{ i.name }}</td>
+            <td>{{ i.phone }}</td>
+            <td>{{ i.email }}</td>
+            <td>
+                Edit
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock content %}
+    
