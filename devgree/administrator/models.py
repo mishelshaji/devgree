@@ -1,4 +1,5 @@
 from django.db import models
+from accounts.models import User
 
 # Create your models here.
 class Department(models.Model):
@@ -28,4 +29,37 @@ class Course(models.Model):
     semesters = models.SmallIntegerField(choices=SEMESTERS)
     
     def __str__(self):
-        return self.coursename
+        return self.name
+
+class Student(models.Model):
+    BLOOD_GROUPS = (
+        ('A+', 'A+'),
+        ('A-', 'A-'),
+        ('B+', 'B+'),
+        ('B-', 'B-'),
+        ('AB+', 'AB+'),
+        ('AB-', 'AB-'),
+        ('O+', 'O+'),
+        ('O-', 'O-'),
+    )
+    SEMESTERS = (
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+        (6, '6'),
+        (7, '7'),
+        (8, '8'),
+    )
+
+    id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='student_user')
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    course = models.ForeignKey(to=Course,on_delete=models.CASCADE)
+    address = models.CharField(max_length=250, blank=True, null=True)
+    blood_group = models.CharField(max_length=10, choices=BLOOD_GROUPS, blank=True, null=True)
+    dob = models.DateField(blank=True, null=True)
+    register_number = models.CharField(max_length=20, unique=True)
+    roll_number = models.CharField(max_length=20, unique=True)
+    semester = models.IntegerField(choices=SEMESTERS)

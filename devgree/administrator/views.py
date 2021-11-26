@@ -36,3 +36,30 @@ class CourseCreateView(CreateView):
     form_class = CourseForm
     template_name = "administrator/course/create.html"
     success_url = reverse_lazy('course_list')
+
+def create_student(request):
+    if request.method == 'GET':
+        user_form = UserCreationFormWithoutPassword()
+        form = StudentCreationForm()
+        context = {
+            'form': form,
+            'user_form': user_form,
+        }
+        return render(request, 'administrator/student/create.html', context)
+    elif request.method == 'POST':
+        user_form = UserCreationFormWithoutPassword(request.POST)
+        form = StudentCreationForm(request.POST)
+        if user_form.is_valid() and form.is_valid():
+            user = user_form.save(commit=False)
+            user.set_password(request.POST['register_number'])
+            user.save()
+            student = form.save(commit=False)
+            student.user = user
+            student.save()
+        else:
+            context = {
+                'form': form,
+                'user_form': user_form,
+            }
+            return render(request, 'administrator/student/create.html', context)
+
