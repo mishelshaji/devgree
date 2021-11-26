@@ -1,0 +1,61 @@
+{% extends 'master.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<h1 class="font-bold text-2xl">Create New Course</h1>
+<hr/>
+<div class="container mt-4">
+    <form method="post">
+        <div class="grid grid-cols-2 gap-3">
+            <div class="col-span-2">
+                <label>{{ form.coursename.label }}</label>
+                {% render_field form.coursename class="form-input w-full rounded" %}
+
+                {% if form.coursename.errors %}
+                <div class="text-red-600">
+                    {{ form.coursename.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+
+
+            <div>
+                <label>{{ form.departmentname.label }}</label>
+                {% render_field form.departmentname class="form-input w-full rounded" %}
+
+                {% if form.departmentname.errors %}
+                <div class="text-red-600">
+                    {{ form.departmentname.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-span-2">
+                <label>{{ form.level.label }}</label>
+                {% render_field form.level class="form-input w-full rounded" %}
+
+                {% if form.level.errors %}
+                <div class="text-red-600">
+                    {{ form.level.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div>
+                <label>{{ form.duration.label }}</label>
+                {% render_field form.duration class="form-input w-full rounded" %}
+
+                {% if form.duration.errors %}
+                <div class="text-red-600">
+                    {{ form.duration.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% csrf_token %}
+        <div class="flex mt-2">
+            <button class="ml-auto bg-indigo-600 p-2 rounded text-white">Save</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

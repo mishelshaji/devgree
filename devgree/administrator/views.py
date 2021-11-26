@@ -16,4 +16,15 @@ class DepartmentCreateView(CreateView):
     model = Department
     form_class = DepartmentForm
     template_name = "administrator/department/create.html"
-    success_url = reverse_lazy('department_list')
+    success_url = reverse_lazy('course_list')
+
+
+class CourseListView(ListView):
+    model = Course
+    template_name = "administrator/course/list.html"
+
+class CourseCreateView(CreateView):
+    model = Course
+    form_class = CourseForm
+    template_name = "administrator/course/create.html"
+    success_url = reverse_lazy('course_list')
