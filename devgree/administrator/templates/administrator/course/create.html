@@ -2,7 +2,7 @@
 {% load widget_tweaks %}
 
 {% block content %}
-<h1 class="font-bold text-2xl">Department</h1>
+<h1 class="font-bold text-2xl">Create New Course</h1>
 <hr/>
 <div class="container mt-4">
     <form method="post">
@@ -11,42 +11,43 @@
                 <label>{{ form.name.label }}</label>
                 {% render_field form.name class="form-input w-full rounded" %}
 
-                {% if form.username.errors %}
+                {% if form.name.errors %}
                 <div class="text-red-600">
-                    {{ form.username.errors.as_ul }}
+                    {{ form.name.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+
+
+            <div>
+                <label>{{ form.department.label }}</label>
+                {% render_field form.department class="form-input w-full rounded" %}
+
+                {% if form.department.errors %}
+                <div class="text-red-600">
+                    {{ form.department.errors.as_ul }}
                 </div>
                 {% endif %}
             </div>
 
             <div>
-                <label>{{ form.phone.label }}</label>
-                {% render_field form.phone class="form-input w-full rounded" %}
+                <label>{{ form.level.label }}</label>
+                {% render_field form.level class="form-input w-full rounded" %}
 
-                {% if form.phone.errors %}
+                {% if form.level.errors %}
                 <div class="text-red-600">
-                    {{ form.phone.errors.as_ul }}
+                    {{ form.level.errors.as_ul }}
                 </div>
                 {% endif %}
             </div>
-
-            <div>
-                <label>{{ form.email.label }}</label>
-                {% render_field form.email class="form-input w-full rounded" %}
-
-                {% if form.email.errors %}
-                <div class="text-red-600">
-                    {{ form.email.errors.as_ul }}
-                </div>
-                {% endif %}
-            </div>
-
+            
             <div class="col-span-2">
-                <label>{{ form.description.label }}</label>
-                {% render_field form.description class="form-input w-full rounded" %}
+                <label>{{ form.semesters.label }}</label>
+                {% render_field form.semesters class="form-input w-full rounded" %}
 
-                {% if form.description.errors %}
+                {% if form.semesters.errors %}
                 <div class="text-red-600">
-                    {{ form.description.errors.as_ul }}
+                    {{ form.semesters.errors.as_ul }}
                 </div>
                 {% endif %}
             </div>
