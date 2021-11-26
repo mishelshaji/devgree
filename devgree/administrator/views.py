@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from .models import *
 from .forms import *
 from django.urls import reverse_lazy
@@ -18,6 +18,13 @@ class DepartmentCreateView(CreateView):
     template_name = "administrator/department/create.html"
     success_url = reverse_lazy('department_list')
 
+
+class DepartmentUpdateView(UpdateView):
+    model = Department
+    template_name = "administrator/department/create.html"
+    form_class = DepartmentForm
+    success_url = reverse_lazy('department_list')
+    pk_url_kwarg = 'id'
 
 class CourseListView(ListView):
     model = Course

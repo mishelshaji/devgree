@@ -22,7 +22,9 @@
             <td>{{ i.phone }}</td>
             <td>{{ i.email }}</td>
             <td>
-                Edit
+                <a href="{% url 'department_edit' i.id %}" class="text-indigo-600">
+                    Edit
+                </a>
             </td>
         </tr>
         {% endfor %}
