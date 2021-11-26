@@ -8,29 +8,29 @@
     <form method="post">
         <div class="grid grid-cols-2 gap-3">
             <div class="col-span-2">
-                <label>{{ form.coursename.label }}</label>
-                {% render_field form.coursename class="form-input w-full rounded" %}
+                <label>{{ form.name.label }}</label>
+                {% render_field form.name class="form-input w-full rounded" %}
 
-                {% if form.coursename.errors %}
+                {% if form.name.errors %}
                 <div class="text-red-600">
-                    {{ form.coursename.errors.as_ul }}
+                    {{ form.name.errors.as_ul }}
                 </div>
                 {% endif %}
             </div>
 
 
             <div>
-                <label>{{ form.departmentname.label }}</label>
-                {% render_field form.departmentname class="form-input w-full rounded" %}
+                <label>{{ form.department.label }}</label>
+                {% render_field form.department class="form-input w-full rounded" %}
 
-                {% if form.departmentname.errors %}
+                {% if form.department.errors %}
                 <div class="text-red-600">
-                    {{ form.departmentname.errors.as_ul }}
+                    {{ form.department.errors.as_ul }}
                 </div>
                 {% endif %}
             </div>
 
-            <div class="col-span-2">
+            <div>
                 <label>{{ form.level.label }}</label>
                 {% render_field form.level class="form-input w-full rounded" %}
 
@@ -41,13 +41,13 @@
                 {% endif %}
             </div>
             
-            <div>
-                <label>{{ form.duration.label }}</label>
-                {% render_field form.duration class="form-input w-full rounded" %}
+            <div class="col-span-2">
+                <label>{{ form.semesters.label }}</label>
+                {% render_field form.semesters class="form-input w-full rounded" %}
 
-                {% if form.duration.errors %}
+                {% if form.semesters.errors %}
                 <div class="text-red-600">
-                    {{ form.duration.errors.as_ul }}
+                    {{ form.semesters.errors.as_ul }}
                 </div>
                 {% endif %}
             </div>

@@ -19,8 +19,8 @@
         </tr>
         {% for i in object_list %}
         <tr>
-            <td>{{ i.coursename }}</td>
-            <td>{{ i.departmentname }}</td>
+            <td>{{ i.name }}</td>
+            <td>{{ i.department.name }}</td>
             <td>{{ i.level }}</td>
             <td>{{ i.duration }}</td>
            

@@ -16,12 +16,13 @@ class DepartmentCreateView(CreateView):
     model = Department
     form_class = DepartmentForm
     template_name = "administrator/department/create.html"
-    success_url = reverse_lazy('course_list')
+    success_url = reverse_lazy('department_list')
 
 
 class CourseListView(ListView):
     model = Course
     template_name = "administrator/course/list.html"
+    queryset = Course.objects.select_related('department').all()
 
 class CourseCreateView(CreateView):
     model = Course

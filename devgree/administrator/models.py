@@ -12,14 +12,20 @@ class Department(models.Model):
         return self.name
 
 
-
 class Course(models.Model):
+    LEVELS = (
+        ('UG', 'UG'),
+        ('PG', 'PG'),
+    )
+    SEMESTERS = (
+        (6, '6'),
+        (8, '8'),
+    )
     id = models.AutoField(primary_key=True)
-    coursename = models.CharField(max_length=15, unique=True)
-    departmentname = models.ForeignKey(to=Department,on_delete=models.CASCADE)
-    level = models.CharField(max_length=2)
-    duration = models.CharField(max_length=2)
-    
+    name = models.CharField(max_length=50, unique=True)
+    department = models.ForeignKey(to=Department,on_delete=models.CASCADE)
+    level = models.CharField(max_length=25, choices=LEVELS)
+    semesters = models.SmallIntegerField(choices=SEMESTERS)
     
     def __str__(self):
         return self.coursename
