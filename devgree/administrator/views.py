@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from .models import *
 from .forms import *
@@ -18,7 +18,6 @@ class DepartmentCreateView(CreateView):
     template_name = "administrator/department/create.html"
     success_url = reverse_lazy('department_list')
 
-
 class DepartmentUpdateView(UpdateView):
     model = Department
     template_name = "administrator/department/create.html"
@@ -36,6 +35,10 @@ class CourseCreateView(CreateView):
     form_class = CourseForm
     template_name = "administrator/course/create.html"
     success_url = reverse_lazy('course_list')
+
+class StudentListView(ListView):
+    model = Student
+    template_name = "administrator/student/list.html"
 
 def create_student(request):
     if request.method == 'GET':
@@ -56,6 +59,7 @@ def create_student(request):
             student = form.save(commit=False)
             student.user = user
             student.save()
+            return redirect('student_list')
         else:
             context = {
                 'form': form,
