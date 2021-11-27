@@ -1,0 +1,116 @@
+{% extends 'master.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<h1 class="font-bold text-2xl">Staff</h1>
+<hr/>
+<div class="container mt-4">
+    <form method="post">
+        <div class="grid grid-cols-2 gap-3">
+            <div>
+                <label>{{ user_form.first_name.label }}</label>
+                {% render_field user_form.first_name class="form-input w-full rounded" %}
+
+                {% if user_form.first_name.errors %}
+                <div class="text-red-600">
+                    {{ user_form.first_name.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label>{{ user_form.last_name.label }}</label>
+                {% render_field user_form.last_name class="form-input w-full rounded" %}
+
+                {% if user_form.last_name.errors %}
+                <div class="text-red-600">
+                    {{ user_form.last_name.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label>{{ user_form.email.label }}</label>
+                {% render_field user_form.email class="form-input w-full rounded" %}
+
+                {% if user_form.email.errors %}
+                <div class="text-red-600">
+                    {{ user_form.email.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label>{{ form.phone.label }}</label>
+                {% render_field form.phone class="form-input w-full rounded" %}
+
+                {% if form.phone.errors %}
+                <div class="text-red-600">
+                    {{ form.phone.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+            <div>
+                <label>{{ form.teacher_id.label }}</label>
+                {% render_field form.teacher_id class="form-input w-full rounded" %}
+
+                {% if form.teacher_id.errors %}
+                <div class="text-red-600">
+                    {{ form.teacher_id.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label>{{ form.department.label }}</label>
+                {% render_field form.department class="form-input w-full rounded" %}
+
+                {% if form.department.errors %}
+                <div class="text-red-600">
+                    {{ form.department.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label>{{ form.dob.label }}</label>
+                {% render_field form.dob class="form-input w-full rounded" %}
+
+                {% if form.dob.errors %}
+                <div class="text-red-600">
+                    {{ form.dob.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label>{{ form.blood_group.label }}</label>
+                {% render_field form.blood_group class="form-input w-full rounded" %}
+
+                {% if form.blood_group.errors %}
+                <div class="text-red-600">
+                    {{ form.blood_group.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+
+            
+
+            <div class="col-span-2">
+                <label>{{ form.address.label }}</label>
+                {% render_field form.address class="form-input w-full rounded" %}
+
+                {% if form.address.errors %}
+                <div class="text-red-600">
+                    {{ form.address.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% csrf_token %}
+        <div class="flex mt-2">
+            <button class="ml-auto bg-indigo-600 p-2 rounded text-white">Save</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

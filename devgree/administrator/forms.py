@@ -26,3 +26,18 @@ class StudentCreationForm(ModelForm):
             'address': forms.Textarea(attrs={'rows': 3}),
             'dob': forms.DateInput(attrs={'type': 'date'}),
         }
+
+
+class UserCreationFormWithoutPassword(ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
+class StaffCreationForm(ModelForm):
+    class Meta:
+        model = Staff 
+        exclude = ['user']
+        widgets = {
+            'address': forms.Textarea(attrs={'rows': 3}),
+            'dob': forms.DateInput(attrs={'type': 'date'}),
+        }

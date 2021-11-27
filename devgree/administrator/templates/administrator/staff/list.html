@@ -2,11 +2,11 @@
 
 {% block content %}
 <div class="flex">
-    <a href="{% url 'student_create' %}" class="ml-auto bg-indigo-600 p-2 rounded text-white">
-        + New Student
+    <a href="{% url 'staff_create' %}" class="ml-auto bg-indigo-600 p-2 rounded text-white">
+        + New Staff
     </a>
 </div>
-<h1 class="font-bold text-2xl">Student List</h1>
+<h1 class="font-bold text-2xl">Staff List</h1>
 <hr/>
 <div class="container mt-4">
     <table class="table border table-striped">
@@ -21,12 +21,13 @@
             <td>{{ i.user.first_name }} {{ i.user.last_name }}</td>
             <td>{{ i.phone }}</td>
             <td>{{ i.user.email }}</td>
-            <td class="font-bold">
-                <a href="{% url 'student_edit' i.id %}" class="text-indigo-600">
+            <td>
+                <a href="{% url 'staff_edit' i.user.id %}" class="text-indigo-600">
                     Edit
                 </a>
-                <a href="{% url 'student_delete' i.user.id %}" class="text-red-600 ml-1" onclick="return confirm('Are you sure?')">
-                    | Delete
+                <div class=gap-3></div>
+                <a href="{% url 'staff_delete' i.user.id %}" class="text-red-600" onclick="return confirm('Are you sure you want to delete?')">
+                    Delete
                 </a>
             </td>
         </tr>
@@ -34,4 +35,3 @@
     </table>
 </div>
 {% endblock content %}
-    

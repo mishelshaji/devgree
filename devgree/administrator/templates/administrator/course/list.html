@@ -25,7 +25,14 @@
             <td>{{ i.duration }}</td>
            
             <td>
+                <a href="{% url 'course_edit' i.id %}" class="text-indigo-600">
                 Edit
+                </a>
+                <div class=gap-3></div>
+                <a href="{% url 'course_delete' i.id %}" class="text-indigo-600">
+                    Delete
+                    </a>
+                    
             </td>
         </tr>
         {% endfor %}
