@@ -21,13 +21,12 @@
             <td>{{ i.user.first_name }} {{ i.user.last_name }}</td>
             <td>{{ i.phone }}</td>
             <td>{{ i.user.email }}</td>
-            <td>
-                <a href="" class="text-indigo-600">
+            <td class="font-bold">
+                <a href="{% url 'student_edit' i.id %}" class="text-indigo-600">
                     Edit
                 </a>
-                <div class=gap-3></div>
-                <a href="" class="text-indigo-600">
-                    Delete
+                <a href="{% url 'student_delete' i.user.id %}" class="text-red-600 ml-1" onclick="return confirm('Are you sure?')">
+                    | Delete
                 </a>
             </td>
         </tr>
