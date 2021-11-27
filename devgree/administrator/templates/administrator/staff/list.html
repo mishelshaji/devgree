@@ -2,11 +2,11 @@
 
 {% block content %}
 <div class="flex">
-    <a href="{% url 'student_create' %}" class="ml-auto bg-indigo-600 p-2 rounded text-white">
-        + New Student
+    <a href="{% url 'staff_create' %}" class="ml-auto bg-indigo-600 p-2 rounded text-white">
+        + New Staff
     </a>
 </div>
-<h1 class="font-bold text-2xl">Student List</h1>
+<h1 class="font-bold text-2xl">Staff List</h1>
 <hr/>
 <div class="container mt-4">
     <table class="table border table-striped">
@@ -22,11 +22,11 @@
             <td>{{ i.phone }}</td>
             <td>{{ i.user.email }}</td>
             <td>
-                <a href="" class="text-indigo-600">
+                <a href="{% url 'department_edit' i.id %}" class="text-indigo-600">
                     Edit
                 </a>
                 <div class=gap-3></div>
-                <a href="" class="text-indigo-600">
+                <a href="{% url 'department_edit' i.id %}" class="text-indigo-600">
                     Delete
                 </a>
             </td>
@@ -35,4 +35,3 @@
     </table>
 </div>
 {% endblock content %}
-    
