@@ -182,3 +182,27 @@ def delete_staff(request, id):
     student = get_object_or_404(User, id=id, staff=True, admin=False)
     student.delete()
     return redirect('staff_list')
+
+class RoomListView(LoginRequiredMixin, ListView):
+    model = Room
+    template_name = "administrator/room/list.html"
+    queryset = Room.objects.select_related('department').all()
+
+class RoomCreateView(LoginRequiredMixin, CreateView):
+    model = Room
+    form_class = RoomForm
+    template_name = "administrator/room/create.html"
+    success_url = reverse_lazy('room_list')
+
+class RoomUpdateView(LoginRequiredMixin, UpdateView):
+    model = Room
+    template_name = "administrator/room/create.html"
+    form_class = RoomForm
+    success_url = reverse_lazy('room_list')
+    pk_url_kwarg = 'id'
+
+@login_required
+def delete_room(request,id ):
+    room= get_object_or_404(Room,id=id)
+    room.delete()
+    return redirect('room_list')

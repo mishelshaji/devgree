@@ -41,3 +41,8 @@ class StaffCreationForm(ModelForm):
             'address': forms.Textarea(attrs={'rows': 3}),
             'dob': forms.DateInput(attrs={'type': 'date'}),
         }
+
+class RoomForm(ModelForm):
+    class Meta:
+        model = Room
+        fields = '__all__'        

@@ -21,5 +21,9 @@ urlpatterns = [
     path('staff/create/', create_staff, name='staff_create'),
     path('staff/edit/<id>', edit_staff, name='staff_edit'),
     path('staff/delete/<id>', delete_staff, name='staff_delete'),
-    
+
+    path('room/', RoomListView.as_view(), name='room_list'),
+    path('room/create/', RoomCreateView.as_view(), name='room_create'),
+    path('room/edit/<id>/', RoomUpdateView.as_view(), name='room_edit'),
+    path('room/delete/<int:id>/', delete_room, name='room_delete'),
 ]
