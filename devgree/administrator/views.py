@@ -153,9 +153,10 @@ def create_staff(request):
 
 @login_required
 def edit_staff(request, id):
-    staff = get_object_or_404(User, id=id, staff=True, admin=False)
+    user = get_object_or_404(User, id=id, staff=True, admin=False)
+    staff = get_object_or_404(Staff, user=user)
     if request.method == 'GET':
-        user_form = UserCreationFormWithoutPassword(instance=staff.user)
+        user_form = UserCreationFormWithoutPassword(instance=user)
         form = StaffCreationForm(instance=staff)
         context = {
             'form': form,
@@ -164,8 +165,8 @@ def edit_staff(request, id):
         return render(request, 'administrator/staff/create.html', context)
 
     elif request.method == 'POST':
-        user_form = UserCreationFormWithoutPassword(request.POST)
-        form = StaffCreationForm(request.POST)
+        user_form = UserCreationFormWithoutPassword(data=request.POST, instance=user)
+        form = StaffCreationForm(data=request.POST, instance=staff)
         if user_form.is_valid() and form.is_valid():
             form.save()
             user_form.save()
@@ -182,3 +183,28 @@ def delete_staff(request, id):
     student = get_object_or_404(User, id=id, staff=True, admin=False)
     student.delete()
     return redirect('staff_list')
+
+class RoomListView(LoginRequiredMixin, ListView):
+    model = Room
+    template_name = "administrator/room/list.html"
+    queryset = Room.objects.all()
+
+class RoomCreateView(LoginRequiredMixin, CreateView):
+    model = Room
+    form_class = RoomForm
+    template_name = "administrator/room/create.html"
+    success_url = reverse_lazy('room_list')
+
+class RoomUpdateView(LoginRequiredMixin, UpdateView):
+    model = Room
+    template_name = "administrator/room/create.html"
+    form_class = RoomForm
+    success_url = reverse_lazy('room_list')
+    pk_url_kwarg = 'id'
+
+@login_required
+def delete_room(request,id ):
+    room= get_object_or_404(Room,id=id)
+    room.delete()
+    return redirect('room_list')
+
