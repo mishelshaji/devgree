@@ -45,4 +45,15 @@ class StaffCreationForm(ModelForm):
 class RoomForm(ModelForm):
     class Meta:
         model = Room
-        fields = '__all__'        
+        fields = '__all__'      
+
+
+class EventssForm(ModelForm):
+    class Meta:
+        model = Eventss
+        fields = '__all__'
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 3}),
+            'start_date': forms.DateInput(attrs={'type': 'date'}),
+            'end_date': forms.DateInput(attrs={'type': 'date'}),
+        }     

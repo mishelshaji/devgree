@@ -208,3 +208,29 @@ def delete_room(request,id ):
     room.delete()
     return redirect('room_list')
 
+
+
+class EventssListView(LoginRequiredMixin, ListView):
+    model = Eventss
+    template_name = "administrator/eventss/list.html"
+    queryset = Eventss.objects.select_related('department').all()
+
+class EventssCreateView(LoginRequiredMixin, CreateView):
+    model = Eventss
+    form_class = EventssForm
+    template_name = "administrator/eventss/create.html"
+    success_url = reverse_lazy('eventss_list')
+
+class EventssUpdateView(LoginRequiredMixin, UpdateView):
+    model = Eventss
+    template_name = "administrator/eventss/create.html"
+    form_class = EventssForm
+    success_url = reverse_lazy('eventss_list')
+    pk_url_kwarg = 'id'
+
+@login_required
+def delete_event(request,id ):
+    eventss= get_object_or_404(Eventss,id=id)
+    eventss.delete()
+    return redirect('eventss_list')
+

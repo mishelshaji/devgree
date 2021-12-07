@@ -126,3 +126,15 @@ class Room(models.Model):
     status = models.CharField(max_length=25, choices=STATUS, blank=True, null=True)
     floor = models.IntegerField(blank=True, max_length=10, choices=FLOOR)
     block = models.CharField(max_length=10, choices=BLOCK, blank=True, null=True)
+
+
+class Eventss(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, unique=True)
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
+    department = models.ForeignKey(to=Department,on_delete=models.CASCADE)
+    description = models.CharField(max_length = 250, blank=True, null=True)
+    
+    def __str__(self):
+        return self.name
