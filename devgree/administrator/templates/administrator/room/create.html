@@ -5,15 +5,27 @@
 <h1 class="font-bold text-2xl">Room</h1>
 <hr/>
 <div class="container mt-4">
+    {{ form.errors }}
     <form method="post">
         <div class="grid grid-cols-2 gap-3">
             <div class="col-span-2">
-                <label>{{ form.Room name.label }}</label>
-                {% render_field form.Room name class="form-input w-full rounded" %}
+                <label>{{ form.room_name.label }}</label>
+                {% render_field form.room_name class="form-input w-full rounded" %}
 
-                {% if form.Room no.errors %}
+                {% if form.room_name.errors %}
                 <div class="text-red-600">
-                    {{ form.Room no.errors.as_ul }}
+                    {{ form.room_name.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-span-2">
+                <label>{{ form.room_no.label }}</label>
+                {% render_field form.room_no class="form-input w-full rounded" %}
+
+                {% if form.room_no.errors %}
+                <div class="text-red-600">
+                    {{ form.room_no.errors.as_ul }}
                 </div>
                 {% endif %}
             </div>
@@ -57,7 +69,7 @@
 
                 {% if form.floor.errors %}
                 <div class="text-red-600">
-                    {{ form.form.errors.as_ul }}
+                    {{ form.floor.errors.as_ul }}
                 </div>
                 {% endif %}
             </div>

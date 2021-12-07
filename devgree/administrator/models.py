@@ -99,35 +99,30 @@ class Staff(models.Model):
 
 class Room(models.Model):
     FLOOR = (
-    (1, '1')
-    (2, '2')
+        (1, '1'),
+        (2, '2')
     )
     
     TYPE = (
-        ('AC', 'AC')
+        ('AC', 'AC'),
         ('NON AC', 'NON AC')
     )
 
     STATUS = (
-        ('AVAILABLE', 'AVAILABLE')
+        ('AVAILABLE', 'AVAILABLE'),
         ('UNAVAILABLE', 'UNAVAILABLE')
     )
 
-    FLOOR = (
-        (1, '1')
-        (2, '2')
-    )
-
     BLOCK = (
-        ('AIDED', 'AIDED')
+        ('AIDED', 'AIDED'),
         ('SELF', 'SELF')
     )
 
     id = models.AutoField(primary_key=True)
-    room_name = models.CharField(max_length=30, blank=True, null=True)
-    room_no = models.CharField(max_length=15, blank=True, null=True)
+    room_name = models.CharField(max_length=30, blank=True, null=True, unique=True)
+    room_no = models.CharField(max_length=15, blank=True, null=True, unique=True)
     capacity = models.CharField(max_length=15, unique=True)
     type = models.CharField(max_length=10, choices=TYPE, blank=True, null=True)
-    status = models.CharField(max_length=10, choices=STATUS, blank=True, null=True)
-    floor = models.CharField(max_length=10, choices=FLOOR, blank=True, null=True)
+    status = models.CharField(max_length=25, choices=STATUS, blank=True, null=True)
+    floor = models.IntegerField(blank=True, max_length=10, choices=FLOOR)
     block = models.CharField(max_length=10, choices=BLOCK, blank=True, null=True)
