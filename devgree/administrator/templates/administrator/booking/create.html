@@ -1,0 +1,82 @@
+{% extends 'master.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<h1 class="font-bold text-2xl"> Booking</h1>
+<hr/>
+<div class="container mt-4">
+    <form method="post">
+        <div class="grid grid-cols-2 gap-3">
+            <div class="col-span-2">
+                <label>{{ form.room_name.label }}</label>
+                {% render_field form.room_name class="form-input w-full rounded" %}
+
+                {% if form.room_name.errors %}
+                <div class="text-red-600">
+                    {{ form.room_name.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+            <div>
+                <label>{{ form.booked_on.label }}</label>
+                {% render_field form.booked_on class="form-input w-full rounded" %}
+
+                {% if form.booked_on.errors %}
+                <div class="text-red-600">
+                    {{ form.booked_on.errorbooked_from
+                </div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label>{{ form.booked_from.label }}</label>
+                {% render_field form.booked_from class="form-input w-full rounded" %}
+
+                {% if form.booked_from.errors %}
+                <div class="text-red-600">
+                    {{ form.booked_from.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label>{{ form.booked_to.label }}</label>
+                {% render_field form.booked_to class="form-input w-full rounded" %}
+
+                {% if form.booked_to.errors %}
+                <div class="text-red-600">
+                    {{ form.booked_to.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+            <div>
+                <label>{{ form.event_name.label }}</label>
+                {% render_field form.event_name class="form-input w-full rounded" %}
+
+                {% if form.event_name.errors %}
+                <div class="text-red-600">
+                    {{ form.event_name.errors.as_ul }}
+                </div>
+                {% endif %}
+
+
+            
+
+            <div class="col-span-2">
+                <label>{{ form.remarks.label }}</label>
+                {% render_field form.remarks class="form-input w-full rounded" %}
+
+                {% if form.remarks.errors %}
+                <div class="text-red-600">
+                    {{ form.remarks.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% csrf_token %}
+        <div class="flex mt-2">
+            <button class="ml-auto bg-indigo-600 p-2 rounded text-white">Save</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

@@ -32,4 +32,10 @@ urlpatterns = [
     path('events/create/', EventssCreateView.as_view(), name='eventss_create'),
     path('events/edit/<id>/', EventssUpdateView.as_view(), name='eventss_edit'),
     path('events/delete/<int:id>/', delete_event, name='eventss_delete'),
+
+
+    path('booking/', BookingListView.as_view(), name='booking_list'),
+    path('booking/create/', BookingCreateView.as_view(), name='booking_create'),
+    path('booking/edit/<id>/', BookingUpdateView.as_view(), name='booking_edit'),
+    path('booking/delete/<int:id>/', delete_booking, name='booking_delete'),
 ]

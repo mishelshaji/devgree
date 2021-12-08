@@ -233,4 +233,29 @@ def delete_event(request,id ):
     eventss= get_object_or_404(Eventss,id=id)
     eventss.delete()
     return redirect('eventss_list')
+    
+class BookingListView(LoginRequiredMixin, ListView):
+    model = Booking
+    template_name = "administrator/booking/list.html"
+    queryset = Booking.objects.select_related('room').all()
+    queryset = Booking.objects.select_related('eventss').all()
+
+class BookingCreateView(LoginRequiredMixin, CreateView):
+    model = Booking
+    form_class = BookingForm
+    template_name = "administrator/booking/create.html"
+    success_url = reverse_lazy('booking_list')
+
+class BookingUpdateView(LoginRequiredMixin, UpdateView):
+    model = Booking
+    template_name = "administrator/booking/create.html"
+    form_class = BookingForm
+    success_url = reverse_lazy('booking_list')
+    pk_url_kwarg = 'id'
+
+@login_required
+def delete_booking(request,id ):
+    booking= get_object_or_404(Booking,id=id)
+    booking.delete()
+    return redirect('booking_list')
 

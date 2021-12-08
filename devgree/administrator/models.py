@@ -138,3 +138,15 @@ class Eventss(models.Model):
     
     def __str__(self):
         return self.name
+
+
+class Booking(models.Model):
+    id = models.AutoField(primary_key=True)
+    room_name = models.ForeignKey(to=Room,on_delete=models.CASCADE)
+    booked_on = models.DateField(blank=True, null=True)
+    booked_from = models.DateField(blank=True, null=True)
+    booked_to = models.DateField(blank=True, null=True)
+    event_name = models.ForeignKey(to=Eventss,on_delete=models.CASCADE)
+    remarks = models.CharField(max_length = 250, blank=True, null=True)
+    
+    
