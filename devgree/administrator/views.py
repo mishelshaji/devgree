@@ -237,8 +237,8 @@ def delete_event(request,id ):
 class BookingListView(LoginRequiredMixin, ListView):
     model = Booking
     template_name = "administrator/booking/list.html"
-    queryset = Booking.objects.select_related('room').all()
-    queryset = Booking.objects.select_related('eventss').all()
+    queryset = Booking.objects.select_related('room_name').all()
+    queryset = Booking.objects.select_related('event_name').all()
 
 class BookingCreateView(LoginRequiredMixin, CreateView):
     model = Booking
