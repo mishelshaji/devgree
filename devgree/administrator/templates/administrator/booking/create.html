@@ -3,17 +3,17 @@
 
 {% block content %}
 <h1 class="font-bold text-2xl"> Booking</h1>
-<hr/>
+<hr />
 <div class="container mt-4">
     <form method="post">
         <div class="grid grid-cols-2 gap-3">
             <div class="col-span-2">
-                <label>{{ form.room_name.label }}</label>
-                {% render_field form.room_name class="form-input w-full rounded" %}
+                <label>{{ form.room.label }}</label>
+                {% render_field form.room class="form-input w-full rounded" %}
 
-                {% if form.room_name.errors %}
+                {% if form.room.errors %}
                 <div class="text-red-600">
-                    {{ form.room_name.errors.as_ul }}
+                    {{ form.room.errors.as_ul }}
                 </div>
                 {% endif %}
             </div>
@@ -50,18 +50,15 @@
                 {% endif %}
             </div>
             <div>
-                <label>{{ form.event_name.label }}</label>
-                {% render_field form.event_name class="form-input w-full rounded" %}
+                <label>{{ form.event.label }}</label>
+                {% render_field form.event class="form-input w-full rounded" %}
 
-                {% if form.event_name.errors %}
+                {% if form.event.errors %}
                 <div class="text-red-600">
-                    {{ form.event_name.errors.as_ul }}
+                    {{ form.event.errors.as_ul }}
                 </div>
                 {% endif %}
-
-
-            
-
+            </div>
             <div class="col-span-2">
                 <label>{{ form.remarks.label }}</label>
                 {% render_field form.remarks class="form-input w-full rounded" %}

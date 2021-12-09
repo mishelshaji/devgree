@@ -48,9 +48,9 @@ class RoomForm(ModelForm):
         fields = '__all__'      
 
 
-class EventssForm(ModelForm):
+class EventForm(ModelForm):
     class Meta:
-        model = Eventss
+        model = Event
         fields = '__all__'
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
@@ -63,7 +63,6 @@ class BookingForm(ModelForm):
         model = Booking
         fields = '__all__'
         widgets = {
-           
             'booked_on': forms.DateInput(attrs={'type': 'date'}),
             'booked_from': forms.DateInput(attrs={'type': 'date'}),
             'booked_to': forms.DateInput(attrs={'type': 'date'}),

@@ -6,7 +6,7 @@
         + New Booking
     </a>
 </div>
-<h1 class="font-bold text-2xl">Create New Event</h1>
+<h1 class="font-bold text-2xl">Upcoming Events</h1>
 <hr/>
 <div class="container mt-4">
     <table class="table border table-striped">
@@ -21,11 +21,11 @@
         </tr>
         {% for i in object_list %}
         <tr>
-            <td>{{ i.room_name.room_name }}</td>
+            <td>{{ i.room.room_name }}</td>
             <td>{{ i.booked_on }}</td>
             <td>{{ i.booked_from }}</td>
             <td>{{ i.booked_to }}</td>
-            <td>{{ i.event_name.name }}</td>
+            <td>{{ i.event.name }}</td>
             <td>{{ i.remarks }}</td>
             <td>
                 <a href="{% url 'booking_edit' i.id %}" class="text-indigo-600">
