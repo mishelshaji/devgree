@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="flex">
-    <a href="{% url 'eventss_create' %}" class="ml-auto bg-indigo-600 p-2 rounded text-white">
+    <a href="{% url 'event_create' %}" class="ml-auto bg-indigo-600 p-2 rounded text-white">
         + New Event
     </a>
 </div>
@@ -26,11 +26,11 @@
             <td>{{ i.department.name }}</td>
             <td>{{ i.description }}</td>
             <td>
-                <a href="{% url 'eventss_edit' i.id %}" class="text-indigo-600">
+                <a href="{% url 'event_edit' i.id %}" class="text-indigo-600">
                 Edit
                 </a>
                 <div class=gap-3></div>
-                <a href="{% url 'eventss_delete' i.id %}" class="text-indigo-600">
+                <a href="{% url 'event_delete' i.id %}" class="text-indigo-600">
                     Delete
                     </a>
                     

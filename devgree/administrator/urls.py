@@ -28,14 +28,21 @@ urlpatterns = [
     path('room/delete/<int:id>/', delete_room, name='room_delete'),
 
 
-    path('events/', EventListView.as_view(), name='eventss_list'),
-    path('events/create/', EventCreateView.as_view(), name='eventss_create'),
-    path('events/edit/<id>/', EventUpdateView.as_view(), name='eventss_edit'),
-    path('events/delete/<int:id>/', delete_event, name='eventss_delete'),
+    path('events/', EventListView.as_view(), name='event_list'),
+    path('events/create/', EventCreateView.as_view(), name='event_create'),
+    path('events/edit/<id>/', EventUpdateView.as_view(), name='event_edit'),
+    path('events/delete/<int:id>/', delete_event, name='event_delete'),
 
 
     path('booking/', BookingListView.as_view(), name='booking_list'),
     path('booking/create/', BookingCreateView.as_view(), name='booking_create'),
     path('booking/edit/<id>/', BookingUpdateView.as_view(), name='booking_edit'),
     path('booking/delete/<int:id>/', delete_booking, name='booking_delete'),
+
+
+    path('notice/', NoticeListView.as_view(), name='notice_list'),
+    path('notice/create/', NoticeCreateView.as_view(), name='notice_create'),
+    path('notice/edit/<id>/', NoticeUpdateView.as_view(), name='notice_edit'),
+    path('notice/delete/<int:id>/', delete_notice, name='notice_delete'),
+
 ]

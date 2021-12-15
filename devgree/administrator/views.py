@@ -316,3 +316,42 @@ def delete_booking(request, id):
     booking= get_object_or_404(Booking,id=id)
     booking.delete()
     return redirect('booking_list')
+
+
+
+
+class NoticeListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Notice
+    template_name = "administrator/notice/list.html"
+    queryset = Notice.objects.select_related('event').all()
+
+    def test_func(self):
+        return self.request.user.admin or self.request.user.staff
+
+class NoticeCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Notice
+    form_class = NoticeForm
+    template_name = "administrator/notice/create.html"
+    success_url = reverse_lazy('notice_list')
+
+    def test_func(self):
+        return self.request.user.admin or self.request.user.staff
+   
+
+class NoticeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Notice
+    template_name = "administrator/notice/create.html"
+    form_class = NoticeForm
+    success_url = reverse_lazy('notice_list')
+    pk_url_kwarg = 'id'
+
+    def test_func(self):
+        return self.request.user.admin or self.request.user.staff
+
+
+@login_required
+@user_passes_test(lambda u: u.admin or u.staff)
+def delete_notice(request,id ):
+    notice= get_object_or_404(Notice,id=id)
+    notice.delete()
+    return redirect('notice_list')

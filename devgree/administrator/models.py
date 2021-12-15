@@ -151,3 +151,16 @@ class Booking(models.Model):
     event = models.ForeignKey(to=Event,on_delete=models.CASCADE)
     remarks = models.CharField(max_length = 250, blank=True, null=True)
     
+
+
+
+
+class Notice(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, unique=True)
+    published_date = models.DateField(blank=True, null=True)
+    event = models.ForeignKey(to=Event,on_delete=models.CASCADE,blank=True)
+    description = models.CharField(max_length = 250, blank=True, null=True)
+    
+    def __str__(self):
+        return self.name
