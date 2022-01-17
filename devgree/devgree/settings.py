@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'theme',
     'widget_tweaks',
     'staff',
+    'user',
 ]
 
 MIDDLEWARE = [
