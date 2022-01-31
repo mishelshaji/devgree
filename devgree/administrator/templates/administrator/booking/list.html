@@ -1,0 +1,46 @@
+{% extends 'master.html' %}
+
+{% block content %}
+<div class="flex">
+    <a href="{% url 'booking_create' %}" class="ml-auto bg-indigo-600 p-2 rounded text-white">
+        + New Booking
+    </a>
+</div>
+<h1 class="font-bold text-2xl">Upcoming Events</h1>
+<hr/>
+<div class="container mt-4">
+    <table class="table border table-striped">
+        <tr>
+            <th>Room Name</th>
+            <th>Booked on</th>
+            <th>Booked from</th>
+            <th>Booked to</th>
+            <th>Event Name</th>
+            <th>Remarks</th>
+            <th>Action</th>
+        </tr>
+        {% for i in object_list %}
+        <tr>
+            <td>{{ i.room.room_name }}</td>
+            <td>{{ i.booked_on }}</td>
+            <td>{{ i.booked_from }}</td>
+            <td>{{ i.booked_to }}</td>
+            <td>{{ i.event.name }}</td>
+            <td>{{ i.remarks }}</td>
+            <td>
+                <a href="{% url 'booking_edit' i.id %}" class="text-indigo-600">
+                Edit
+                </a>
+                <div class=gap-3></div>
+                <a href="{% url 'booking_delete' i.id %}" class="text-indigo-600">
+                    Delete
+                    </a>
+                    
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock content %}
+    
+    
