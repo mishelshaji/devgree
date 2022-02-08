@@ -9,7 +9,7 @@
 <h1 class="font-bold text-2xl">Create New Event</h1>
 <hr/>
 <div class="container mt-4">
-    <table class="table border table-striped">
+    <!-- <table class="table border table-striped">
         <tr>
             <th>Name</th>
             <th>Start Date</th>
@@ -37,7 +37,32 @@
             </td>
         </tr>
         {% endfor %}
-    </table>
+    </table> -->
+    <div class="grid grid-cols-4 gap-3">
+
+        {% for i in object_list %}
+        <div class="shadow-lg border rounded p-2 hover:shadow-xl transition">
+            <h2 class="text-center font-semibold text-2xl">{{ i.name }}</h2>
+            <div class="mt-2">
+                <p>Start Date: {{ i.start_date }}</td>
+                <p>End Date: {{ i.end_date }}</td>
+                <p>Department: {{ i.department.name }}</td>
+                    <p>Description: {{ i.description }}</td>
+            </div>
+            <hr>
+            <div class="mt-2 flex justify-center">
+                <a href="{% url 'eventss_edit' i.id %}" class="text-indigo-600 p-1 px-2 mx-2 hover:bg-indigo-600 hover:text-white transition rounded">
+                    Edit
+                </a>
+                <div class=gap-3></div>
+                <a href="{% url 'eventss_delete' i.id %}" class="text-red-600 p-1 px-2 mx-2 hover:bg-red-600 hover:text-white transition rounded">
+                    Delete
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
 </div>
 {% endblock content %}
     

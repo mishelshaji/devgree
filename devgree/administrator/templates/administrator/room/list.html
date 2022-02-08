@@ -12,7 +12,7 @@
     
 <h1 class="font-bold text-2xl">Create New Room</h1>
 <hr />
-<div class="container mt-4">
+<!-- <div class="container mt-4">
     <table class="table border table-striped">
         <tr>
             <th>Room Name</th>
@@ -54,5 +54,37 @@
         </tr>
         {% endfor %}
     </table>
+</div> -->
+<div class="grid grid-cols-4 gap-3">
+
+    {% for i in object_list %}
+    <div class="shadow-lg border rounded p-2 hover:shadow-xl transition">
+        <h2 class="text-center font-semibold text-2xl">{{ i.name }}</h2>
+        <div class="mt-2">
+            <td>Room Name: {{ i.room_name }}</td>
+            <td>Room No: {{ i.room_no }}</td>
+            <td>Capacity: {{ i.capacity}}</td>
+            <td>Type: {{ i.type}}</td>
+            <td>Status: {{i.status}}</td>
+            <td> Floor: {{  i.floor}}</td>
+            <td> Block: {{i.block}}</td>
+
+             
+        </div>
+        <hr>
+        <div class="mt-2 flex justify-center">
+            <a href="{% url 'room_edit' i.id %}" class="text-indigo-600 p-1 px-2 mx-2 hover:bg-indigo-600 hover:text-white transition rounded">
+                Edit
+            </a>
+            <div class=gap-3></div>
+            <a href="{% url 'room_delete' i.id %}" class="text-red-600 p-1 px-2 mx-2 hover:bg-red-600 hover:text-white transition rounded">
+                Delete
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+
 </div>
+
+
 {% endblock content %}

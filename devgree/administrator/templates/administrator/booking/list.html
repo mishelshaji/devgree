@@ -7,9 +7,9 @@
     </a>
 </div>
 <h1 class="font-bold text-2xl">Upcoming Events</h1>
-<hr/>
+<hr />
 <div class="container mt-4">
-    <table class="table border table-striped">
+    <!-- <table class="table border table-striped">
         <tr>
             <th>Room Name</th>
             <th>Booked on</th>
@@ -39,7 +39,34 @@
             </td>
         </tr>
         {% endfor %}
-    </table>
+    </table> -->
+    <div class="grid grid-cols-4 gap-3">
+
+        {% for i in object_list %}
+        <div class="shadow-lg border rounded p-2 hover:shadow-xl transition">
+            <h2 class="text-center font-semibold text-2xl">{{ i.room.room_name }}</h2>
+            <div class="mt-2">
+               
+                <p>Booked on: {{i.booked_on }}</td>
+                <p>Booked from: {{i.booked_from }}</td>
+                <p>Booked to: {{ i.booked_to  }}</td>
+                <p>Event Name: {{ i.event.name }}</td>
+                <p>Remarks: {{ i.remarks }}</td>
+                
+            </div>
+            <hr>
+            <div class="mt-2 flex justify-center">
+                <a href="{% url 'booking_edit' i.id %}" class="text-indigo-600 p-1 px-2 mx-2 hover:bg-indigo-600 hover:text-white transition rounded">
+                    Edit
+                </a>
+                <div class=gap-3></div>
+                <a href="{% url 'booking_delete' i.id %}" class="text-red-600 p-1 px-2 mx-2 hover:bg-red-600 hover:text-white transition rounded">
+                    Delete
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock content %}
     
