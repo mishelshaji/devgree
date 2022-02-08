@@ -1,54 +1,37 @@
 {% extends 'master.html' %}
 
 {% block content %}
-<div class="flex">
+<div class="flex mb-8">
+    <form method="get" class="flex">
+        <input type="search" name="s" class="rounded w-full" placeholder="Search" />
+        <button class="bg-green-600 p-2 rounded text-white ml-2">Search</button>
+    </form>
     <a href="{% url 'student_create' %}" class="ml-auto bg-indigo-600 p-2 rounded text-white">
         + New Student
     </a>
 </div>
 <h1 class="font-bold text-2xl">Student List</h1>
-<hr/>
+<hr />
 <div class="container mt-4">
-    <!-- <table class="table border table-striped">
-        <tr>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Action</th>
-        </tr>
-        {% for i in object_list %}
-        <tr>
-            <td>{{ i.user.first_name }} {{ i.user.last_name }}</td>
-            <td>{{ i.phone }}</td>
-            <td>{{ i.user.email }}</td>
-            <td class="font-bold">
-                <a href="{% url 'student_edit' i.id %}" class="text-indigo-600">
-                    Edit
-                </a>
-                <a href="{% url 'student_delete' i.user.id %}" class="text-red-600 ml-1" onclick="return confirm('Are you sure?')">
-                    | Delete
-                </a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table> -->
     <div class="grid grid-cols-4 gap-3">
 
         {% for i in object_list %}
         <div class="shadow-lg border rounded p-2 hover:shadow-xl transition">
-            <h2 class="text-center font-semibold text-2xl">{{  i.user.first_name }} {{ i.user.last_name }}</h2>
+            <h2 class="text-center font-semibold text-2xl">{{ i.user.first_name }} {{ i.user.last_name }}</h2>
             <div class="mt-2">
-                
                 <p>Phone: {{ i.phone }}</td>
                 <p>Email: {{ i.user.email }}</td>
+                <p>Register No: {{ i.register_number }}</td>
             </div>
             <hr>
             <div class="mt-2 flex justify-center">
-                <a href="{% url 'student_edit' i.id %}" class="text-indigo-600 p-1 px-2 mx-2 hover:bg-indigo-600 hover:text-white transition rounded">
+                <a href="{% url 'student_edit' i.id %}"
+                    class="text-indigo-600 p-1 px-2 mx-2 hover:bg-indigo-600 hover:text-white transition rounded">
                     Edit
                 </a>
                 <div class=gap-3></div>
-                <a href="{% url 'student_delete' i.id %}" class="text-red-600 p-1 px-2 mx-2 hover:bg-red-600 hover:text-white transition rounded">
+                <a href="{% url 'student_delete' i.id %}"
+                    class="text-red-600 p-1 px-2 mx-2 hover:bg-red-600 hover:text-white transition rounded">
                     Delete
                 </a>
             </div>
@@ -58,4 +41,3 @@
     </div>
 </div>
 {% endblock content %}
-    

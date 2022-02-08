@@ -12,62 +12,19 @@
     
 <h1 class="font-bold text-2xl">Create New Room</h1>
 <hr />
-<!-- <div class="container mt-4">
-    <table class="table border table-striped">
-        <tr>
-            <th>Room Name</th>
-            <th>Room no</th>
-            <th>Capacity</th>
-            <th>Type</th>
-            <th>Status</th>
-            <th>Floor</th>
-            <th>Block</th>
-
-            {% if user.admin %}
-            <th>Action</th>
-            {% endif %}
-
-        </tr>
-        {% for i in object_list %}
-        <tr>
-            <td>{{ i.room_name }}</td>
-            <td>{{ i.room_no }}</td>
-            <td>{{ i.capacity }}</td>
-            <td>{{ i.type }}</td>
-            <td>{{ i.status }}</td>
-            <td>{{ i.floor }}</td>
-            <td>{{ i.block }}</td>
-
-            {% if user.admin %}
-            <td>
-                <a href="{% url 'room_edit' i.id %}" class="text-indigo-600">
-                    Edit
-                </a>
-                <div class=gap-3></div>
-                <a href="{% url 'room_delete' i.id %}" class="text-indigo-600">
-                    Delete
-                </a>
-
-            </td>
-            {% endif %}
-
-        </tr>
-        {% endfor %}
-    </table>
-</div> -->
 <div class="grid grid-cols-4 gap-3">
 
     {% for i in object_list %}
     <div class="shadow-lg border rounded p-2 hover:shadow-xl transition">
         <h2 class="text-center font-semibold text-2xl">{{ i.name }}</h2>
         <div class="mt-2">
-            <td>Room Name: {{ i.room_name }}</td>
-            <td>Room No: {{ i.room_no }}</td>
-            <td>Capacity: {{ i.capacity}}</td>
-            <td>Type: {{ i.type}}</td>
-            <td>Status: {{i.status}}</td>
-            <td> Floor: {{  i.floor}}</td>
-            <td> Block: {{i.block}}</td>
+            <p>Room Name: {{ i.room_name }}</p>
+            <p>Room No: {{ i.room_no }}</p>
+            <p>Capacity: {{ i.capacity}}</p>
+            <p>Type: {{ i.type}}</p>
+            <p>Status: {{i.status}}</p>
+            <p> Floor: {{  i.floor}}</p>
+            <p> Block: {{i.block}}</p>
 
              
         </div>

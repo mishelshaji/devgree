@@ -5,6 +5,7 @@ from .forms import *
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Q
 
 # Create your views here.
 @login_required
@@ -76,6 +77,13 @@ class StudentListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Student
     template_name = "administrator/student/list.html"
 
+    def get_queryset(self):
+        queryset = Student.objects.select_related('user')
+        search = self.request.GET.get('s', None)
+        if search:
+            queryset = queryset.filter(Q(user__email__icontains=search) | Q(register_number__icontains=search) | Q(roll_number__icontains=search))
+        return queryset
+
     def test_func(self):
         return self.request.user.admin or self.request.user.staff
 
@@ -144,6 +152,7 @@ def delete_student(request, id):
 class StaffListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Staff
     template_name = "administrator/staff/list.html"
+    queryset = Staff.objects.select_related('user')
 
     def test_func(self):
         return self.request.user.admin
