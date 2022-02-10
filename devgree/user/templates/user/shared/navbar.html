@@ -28,20 +28,25 @@
                         src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
                         alt="Workflow">
                 </div>
-                <div class="hidden sm:block sm:ml-6">
-                    <div class="flex space-x-4">
+                <div class="hidden sm:block sm:w-full sm:ml-6">
+                    <div class="flex space-x-4 ml-auto justify-end">
                         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                        <a href="#" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                        <a href="/" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
                             aria-current="page">Home</a>
 
-                        <a href="#"
-                            class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
-
-                        <a href="#"
+                        <a href="{% url 'contact' %}"
                             class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contact</a>
 
                         <a href="#"
                             class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Noticeboard</a>
+
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'logout' %}"
+                            class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
+                        {% else %}
+                        <a href="{% url login %}"
+                            class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -56,23 +61,30 @@
                 aria-current="page">Home</a>
 
             <a href="#"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
-
-            <a href="#"
                 class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Contact</a>
 
             <a href="#"
                 class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Noticeboard</a>
+
+
+            {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Logout</a>
+            {% else %}
+            <a href="{% url 'login' %}"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Login</a>
+            {% endif %}
+
         </div>
     </div>
 </nav>
 
 <script>
-    function togleMenu(){
+    function togleMenu() {
         var menu = document.getElementById("mobile-menu");
-        if(menu.style.display == "block"){
+        if (menu.style.display == "block") {
             menu.style.display = "none";
-        }else{
+        } else {
             menu.style.display = "block";
         }
     }

@@ -1,3 +1,4 @@
+from email.mime import image
 from django.db import models
 from accounts.models import User
 
@@ -63,7 +64,7 @@ class Student(models.Model):
     register_number = models.CharField(max_length=20, unique=True)
     roll_number = models.CharField(max_length=20, unique=True)
     semester = models.IntegerField(choices=SEMESTERS)
-
+    image = models.ImageField(upload_to='student_images', blank=True, null=True)
 
 class Staff(models.Model):
     BLOOD_GROUPS = (
@@ -126,6 +127,7 @@ class Room(models.Model):
     status = models.CharField(max_length=25, choices=STATUS, blank=True, null=True)
     floor = models.IntegerField(blank=True, choices=FLOOR)
     block = models.CharField(max_length=10, choices=BLOCK, blank=True, null=True)
+    image = models.ImageField(upload_to='room_images', blank=True, null=True)
 
     def __str__(self):
         return self.room_name
@@ -150,4 +152,11 @@ class Booking(models.Model):
     booked_to = models.DateField(blank=True, null=True)
     event = models.ForeignKey(to=Event,on_delete=models.CASCADE)
     remarks = models.CharField(max_length = 250, blank=True, null=True)
+
+class Contact(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(max_length=100, unique=True)
+    phone = models.CharField(max_length=15, unique=True)
+    message = models.CharField(max_length = 250)
     

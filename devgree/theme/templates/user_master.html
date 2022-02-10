@@ -18,7 +18,7 @@
 </head>
 
 <body>
-	<div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
+	<div class="flex min-h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
 		{% include 'administrator/shared/left_sidebar_mobile.html' %}
 
 		<div class="flex flex-col flex-1 w-full">
@@ -31,6 +31,8 @@
 		</div>
 
 	</div>
+	{% include 'user/shared/footer.html' %}
+
 	<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 	<script src="{% static '/assets/js/init-alpine.js' %}"></script>
 </body>

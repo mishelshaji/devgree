@@ -11,7 +11,14 @@ from django.db.models import Q
 @login_required
 @user_passes_test(lambda u: u.admin)
 def admin_home(request):
-    return render(request, 'administrator/home.html')
+    context = {
+        'students_count': Student.objects.count(),
+        'departments_count': Department.objects.count(),
+        'courses_count': Course.objects.count(),
+        'staff_count': User.objects.filter(staff=True).count(),
+        'contact_requests': Contact.objects.all(),
+    }
+    return render(request, 'administrator/home.html', context)
 
 class DepartmentListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Department
@@ -100,7 +107,7 @@ def create_student(request):
         return render(request, 'administrator/student/create.html', context)
     elif request.method == 'POST':
         user_form = UserCreationFormWithoutPassword(request.POST)
-        form = StudentCreationForm(request.POST)
+        form = StudentCreationForm(request.POST, files=request.FILES)
         if user_form.is_valid() and form.is_valid():
             user = user_form.save(commit=False)
             user.set_password(request.POST['register_number'])
@@ -130,7 +137,7 @@ def update_student(request,id):
         return render(request, 'administrator/student/create.html', context)
     elif request.method == 'POST':
         user_form = UserCreationFormWithoutPassword(data=request.POST, instance=student.user)
-        form = StudentCreationForm(data=request.POST, instance=student)
+        form = StudentCreationForm(data=request.POST, instance=student, files=request.FILES)
         if user_form.is_valid() and form.is_valid():
             user_form.save()
             form.save()
@@ -325,3 +332,18 @@ def delete_booking(request, id):
     booking= get_object_or_404(Booking,id=id)
     booking.delete()
     return redirect('booking_list')
+
+class ContactUsListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Contact
+    template_name = "administrator/contactus/list.html"
+    queryset = Contact.objects.all()
+
+    def test_func(self):
+        return self.request.user.admin
+
+@login_required
+@user_passes_test(lambda u: u.admin)
+def contactus_delete(request, id):
+    contactus= get_object_or_404(Contact,id=id)
+    contactus.delete()
+    return redirect('contact_list')

@@ -1,0 +1,32 @@
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js' integrity='sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==' crossorigin='anonymous'></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+<script>
+    toastr.options.closeMethod = 'fadeOut';
+    toastr.options.closeDuration = 300;
+    toastr.options.closeEasing = 'swing';
+    toastr.options.progressBar = true;
+</script>
+{% if messages %}
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <script>
+                toastr.success('{{ message.message }}', '{{ message }}')
+            </script>
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <script>
+                toastr.error('{{ message.message }}', '{{ message.title }}')
+            </script>
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+            <script>
+                toastr.warning('{{ message.message }}', '{{ message.title }}')
+            </script>
+        {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+            <script>
+                toastr.info('{{ message.message }}', '{{ message.title }}')
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+    

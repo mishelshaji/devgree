@@ -67,4 +67,12 @@ class BookingForm(ModelForm):
             'booked_from': forms.DateInput(attrs={'type': 'date'}),
             'booked_to': forms.DateInput(attrs={'type': 'date'}),
             'remarks': forms.Textarea(attrs={'rows': 3}),
-        }     
+        }
+
+class ContactForm(ModelForm):
+    class Meta:
+        model = Contact
+        fields = '__all__'
+        widgets = {
+            'message': forms.Textarea(attrs={'rows': 3}),
+        } 

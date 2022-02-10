@@ -9,8 +9,8 @@
     </a>
 </div>
 {% endif %}
-    
-<h1 class="font-bold text-2xl">Create New Room</h1>
+
+<h1 class="font-bold text-2xl">Rooms</h1>
 <hr />
 <div class="grid grid-cols-4 gap-3">
 
@@ -18,23 +18,64 @@
     <div class="shadow-lg border rounded p-2 hover:shadow-xl transition">
         <h2 class="text-center font-semibold text-2xl">{{ i.name }}</h2>
         <div class="mt-2">
-            <p>Room Name: {{ i.room_name }}</p>
-            <p>Room No: {{ i.room_no }}</p>
-            <p>Capacity: {{ i.capacity}}</p>
-            <p>Type: {{ i.type}}</p>
-            <p>Status: {{i.status}}</p>
-            <p> Floor: {{  i.floor}}</p>
-            <p> Block: {{i.block}}</p>
+            <div>
+                {% if i.image %}
+                <img src="{{ i.image.url }}" class="w-full h-44" alt="Image failed to load" />
+                {% else %}
+                <img src="https://dummyimage.com/200x200.jpg?text=No%20Image" alt="Image failed to load"
+                    class="w-full h-44" />
+                {% endif %}
+            </div>
 
-             
+            <div class="py-2">
+                <table class="w-full">
+                    <tr>
+                        <td>Name</td>
+                        <td>:</td>
+                        <td>{{ i.room_name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Number</td>
+                        <td>:</td>
+                        <td>{{ i.room_no }}</td>
+                    </tr>
+                    <tr>
+                        <td>Capacity</td>
+                        <td>:</td>
+                        <td>{{ i.capacity }}</td>
+                    </tr>
+                    <tr>
+                        <td>Type</td>
+                        <td>:</td>
+                        <td>{{ i.type }}</td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
+                        <td>:</td>
+                        <td>{{ i.status }}</td>
+                    </tr>
+                    <tr>
+                        <td>Floor</td>
+                        <td>:</td>
+                        <td>{{ i.floor }}</td>
+                    </tr>
+                    <tr>
+                        <td>Block</td>
+                        <td>:</td>
+                        <td>{{ i.block }}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <hr>
         <div class="mt-2 flex justify-center">
-            <a href="{% url 'room_edit' i.id %}" class="text-indigo-600 p-1 px-2 mx-2 hover:bg-indigo-600 hover:text-white transition rounded">
+            <a href="{% url 'room_edit' i.id %}"
+                class="text-indigo-600 p-1 px-2 mx-2 hover:bg-indigo-600 hover:text-white transition rounded">
                 Edit
             </a>
             <div class=gap-3></div>
-            <a href="{% url 'room_delete' i.id %}" class="text-red-600 p-1 px-2 mx-2 hover:bg-red-600 hover:text-white transition rounded">
+            <a href="{% url 'room_delete' i.id %}"
+                class="text-red-600 p-1 px-2 mx-2 hover:bg-red-600 hover:text-white transition rounded">
                 Delete
             </a>
         </div>

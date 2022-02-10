@@ -38,4 +38,7 @@ urlpatterns = [
     path('booking/create/', BookingCreateView.as_view(), name='booking_create'),
     path('booking/edit/<id>/', BookingUpdateView.as_view(), name='booking_edit'),
     path('booking/delete/<int:id>/', delete_booking, name='booking_delete'),
+
+    path('contact/', ContactUsListView.as_view(), name='contact_list'),
+    path('contact/delete/<int:id>/', contactus_delete, name='contact_delete'),
 ]
