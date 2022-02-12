@@ -76,3 +76,8 @@ class ContactForm(ModelForm):
         widgets = {
             'message': forms.Textarea(attrs={'rows': 3}),
         } 
+
+class ClassRoomTeacherAddForm(ModelForm):
+    class Meta:
+        model = ClassRoomTeachers
+        fields = '__all__'

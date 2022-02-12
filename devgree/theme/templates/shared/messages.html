@@ -8,23 +8,25 @@
     toastr.options.closeEasing = 'swing';
     toastr.options.progressBar = true;
 </script>
+
 {% if messages %}
     {% for message in messages %}
+        <h1>{{ message }}</h1>
         {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
             <script>
-                toastr.success('{{ message.message }}', '{{ message }}')
+                toastr.success('{{ message.message }}')
             </script>
         {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
             <script>
-                toastr.error('{{ message.message }}', '{{ message.title }}')
+                toastr.error('{{ message }}')
             </script>
         {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
             <script>
-                toastr.warning('{{ message.message }}', '{{ message.title }}')
+                toastr.warning('{{ message }}')
             </script>
         {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
             <script>
-                toastr.info('{{ message.message }}', '{{ message.title }}')
+                toastr.info('{{ message }}')
             </script>
         {% endif %}
     {% endfor %}

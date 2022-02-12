@@ -159,4 +159,38 @@ class Contact(models.Model):
     email = models.EmailField(max_length=100, unique=True)
     phone = models.CharField(max_length=15, unique=True)
     message = models.CharField(max_length = 250)
-    
+
+class ClassRoom(models.Model):
+    SEMESTERS = (
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+        (6, '6'),
+        (7, '7'),
+        (8, '8'),
+    )
+
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, unique=True)
+    course = models.ForeignKey(to=Course, on_delete=models.CASCADE)
+    semester = models.IntegerField(choices=SEMESTERS)
+    created_on = models.DateField(auto_now_add=True)
+    updated_on = models.DateField(auto_now=True)
+    image = models.ImageField(upload_to='classroom_images', blank=True, null=True)
+
+class ClassRoomTeachers(models.Model):
+    id = models.AutoField(primary_key=True)
+    classroom = models.ForeignKey(to=ClassRoom, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(to=User, limit_choices_to={'staff': True}, on_delete=models.CASCADE)
+    created_on = models.DateField(auto_now_add=True)
+    updated_on = models.DateField(auto_now=True)
+
+class Noticeboard(models.Model):
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=100, unique=True)
+    body = models.TextField()
+    department = models.ForeignKey(to=Department,on_delete=models.CASCADE, blank=True, null=True)
+    created_on = models.DateField(auto_now_add=True)
+    updated_on = models.DateField(auto_now=True)

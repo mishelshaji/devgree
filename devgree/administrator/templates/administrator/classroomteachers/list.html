@@ -1,0 +1,39 @@
+{% extends 'master.html' %}
+
+{% block content %}
+<h1 class="font-bold text-2xl">Teachers of 
+    <a href="{% url 'classroom_list' %}" class="text-indigo-600">{{ classroom.name }}</a>
+</h1>
+<div class="py-2 flex">
+    <a href="{% url 'classroomteachers_add_list' id=classroom_id %}" class="p-2 text-white rounded bg-indigo-600 ml-auto">+ New Teacher</a>
+</div>
+<hr />
+<div class="container mt-4">
+    {% if object_list %}
+    <table class="w-full border">
+        <tr class="border bg-gray-100">
+            <th class="border p-2">First Name</th>
+            <th class="border p-2">Last Name</th>
+            <th class="border p-2">Email</th>
+            <th class="border p-2">Status</th>
+            <th class="border p-2">Action</th>
+        </tr>
+        {% for teacher in object_list %}
+        <tr class="bg-white">
+            <td class="border p-2">{{ teacher.teacher.first_name }}</td>
+            <td class="border p-2">{{ teacher.teacher.last_name }}</td>
+            <td class="border p-2">{{ teacher.teacher.email }}</td>
+            <td class="border p-2">Active</td>
+            <td class="border p-2">
+                <a href="{% url 'classroomteachers_delete' id=teacher.id %}" class="bg-red-500 text-white p-2 rounded" onclick="return confirm('Are you sure you want to delete this teacher?');">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <div class="p2 py-4 text-center bg-gray-100">
+        <p class="text-gray-600">No teachers</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}

@@ -1,0 +1,61 @@
+{% extends 'master.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<h1 class="font-bold text-2xl">Classroom</h1>
+<hr/>
+<div class="container mt-4">
+    <form method="post" enctype="multipart/form-data">
+        <div class="grid grid-cols-2 gap-3">
+            <div class="col-span-2">
+                <label>{{ form.name.label }}</label>
+                {% render_field form.name class="form-input w-full rounded" %}
+
+                {% if form.name.errors %}
+                <div class="text-red-600">
+                    {{ form.name.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+
+
+            <div>
+                <label>{{ form.course.label }}</label>
+                {% render_field form.course class="form-input w-full rounded" %}
+
+                {% if form.course.errors %}
+                <div class="text-red-600">
+                    {{ form.course.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label>{{ form.semester.label }}</label>
+                {% render_field form.semester class="form-input w-full rounded" %}
+
+                {% if form.semester.errors %}
+                <div class="text-red-600">
+                    {{ form.semester.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="col-span-2">
+                <label>{{ form.image.label }}</label>
+                {% render_field form.image class="form-input w-full rounded" %}
+
+                {% if form.image.errors %}
+                <div class="text-red-600">
+                    {{ form.image.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% csrf_token %}
+        <div class="flex mt-2">
+            <button class="ml-auto bg-indigo-600 p-2 rounded text-white">Save</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

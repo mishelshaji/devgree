@@ -41,4 +41,19 @@ urlpatterns = [
 
     path('contact/', ContactUsListView.as_view(), name='contact_list'),
     path('contact/delete/<int:id>/', contactus_delete, name='contact_delete'),
+
+    path('classroom/', ClassRoomListView.as_view(), name='classroom_list'),
+    path('classroom/create/', ClassRoomCreateView.as_view(), name='classroom_create'),
+    path('classroom/edit/<id>', ClassRoomUpdateView.as_view(), name='classroom_edit'),
+
+    path('classroom/teachers/<id>/', ClassRoomTeachersListView.as_view(), name='classroomteachers_list'),
+    path('classroom/teachers/create/<id>/', add_classroom_teacher_list, name='classroomteachers_add_list'),
+    path('classroom/teachers/add/confirm/<classroom_id>/<teacher_id>/', classroom_teacher_confirm_add, name='classroomteachers_add'),
+    path('classroom/teachers/delete/<id>/', remove_classroom_teacher, name='classroomteachers_delete'),
+
+    path("noticeboard/", NoticeboardListView.as_view(), name="noticeboard_list"),
+    path("noticeboard/detail/<id>/", NoticeboardDetailView.as_view(), name="noticeboard_detail"),
+    path("noticeboard/create/", NoticeboardCreateView.as_view(), name="noticeboard_create"),
+    path("noticeboard/edit/<id>/", NoticeboardUpdateView.as_view(), name="noticeboard_edit"),
+    path("noticeboard/delete/<id>/", NoticeboardDeleteView.as_view(), name="noticeboard_delete"),
 ]

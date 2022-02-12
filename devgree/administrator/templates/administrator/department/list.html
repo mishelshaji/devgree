@@ -6,29 +6,8 @@
         + New Department
     </a>
 </div>
-<h1 class="font-bold text-2xl">Create New Department</h1>
+<h1 class="font-bold text-2xl">Departments</h1>
 <hr/>
-<!-- <div class="container mt-4">
-    <table class="table border table-striped">
-        <tr>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Action</th>
-        </tr>
-        {% for i in object_list %}
-        <tr>
-            <td>{{ i.name }}</td>
-            <td>{{ i.phone }}</td>
-            <td>{{ i.email }}</td>
-            <td>
-                <a href="{% url 'department_edit' i.id %}" class="text-indigo-600">
-                    Edit
-                </a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table> -->
     <div class="grid grid-cols-4 gap-3">
 
         {% for i in object_list %}

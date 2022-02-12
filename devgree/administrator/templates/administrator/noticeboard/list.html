@@ -1,0 +1,39 @@
+{% extends 'master.html' %}
+
+{% block content %}
+<div class="flex">
+    <a href="{% url 'noticeboard_create' %}" class="ml-auto bg-indigo-600 p-2 rounded text-white">
+        + New Notice
+    </a>
+</div>
+<h1 class="font-bold text-2xl">Notices</h1>
+
+<div class="py-4">
+    {% if object_list %}
+        <table class="border w-full">
+            <tr>
+                <th class="border">Title</th>
+                <th class="border">Department</th>
+                <th class="border">Published On</th>
+                <th class="border">Actions</th>
+            </tr>
+            {% for i in object_list %}
+            <tr>
+                <td class="border">{{ i.title }}</td>
+                <td class="border">{{ i.department.name }}</td>
+                <td class="border">{{ i.created_on }}</td>
+                <td class="border font-bold">
+                    <a href="{% url 'noticeboard_detail' id=i.id %}" class="text-indigo-600">View</a> | 
+                    <a href="{% url 'noticeboard_edit' id=i.id %}" class="text-green-600">Edit</a> |
+                    <a href="{% url 'noticeboard_delete' id=i.id %}" class="text-red-600" onclick="return confirm('Are you sure you want to delete this notice?');">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+    <div class="px-2 py-4 bg-gray-100 rounded shadow text-center">
+        <h1 class="text-gray-600">No Notices</h1>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}
