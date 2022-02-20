@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'theme',
     'widget_tweaks',
     'staff',
+    'student',
     'user',
+    'classroom',
 ]
 
 MIDDLEWARE = [

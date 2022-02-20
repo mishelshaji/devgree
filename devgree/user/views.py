@@ -29,3 +29,21 @@ class NoticeboardDetailView(DetailView):
     model = Noticeboard
     template_name = 'user/noticeboard/detail.html'
     pk_url_kwarg = 'id'
+
+class GrievanceCreateView(SuccessMessageMixin, CreateView):
+    form_class = GrievanceCreateForm
+    template_name = 'user/grievance.html'
+    success_url = reverse_lazy('grievance')
+    success_message = 'Your grievance has been sent successfully.'
+
+def grievance_status(request):
+    if request.method == "GET":
+        return render(request, 'user/grievance_status.html')
+    else:
+        email = request.POST.get('email')
+        grievance = Grievance.objects.filter(email=email).first()
+        if grievance:
+            form = GrievanceViewForm(instance=grievance)
+            return render(request, 'user/grievance_status.html', {'grievance': form})
+        else:
+            return render(request, 'user/grievance_status.html', {'grievance': None})

@@ -1,0 +1,35 @@
+{% extends 'master.html' %}
+
+{% block content %}
+<h1 class="font-bold text-2xl">Grievances</h1>
+<hr />
+<div class="container mt-4">
+    {% if object_list %}
+    <table class="w-full border">
+        <tr class="border bg-gray-100">
+            <th class="border p-2">Name</th>
+            <th class="border p-2">Email</th>
+            <th class="border p-2">Phone</th>
+            <th class="border p-2">Message</th>
+            <th class="border p-2">Action</th>
+        </tr>
+        {% for message in object_list %}
+        <tr class="bg-white">
+            <td class="border p-2">{{ message.name }}</td>
+            <td class="border p-2">{{ message.email }}</td>
+            <td class="border p-2">{{ message.phone }}</td>
+            <td class="border p-2">{{ message.message }}</td>
+            <td class="border p-2">
+                <a href="{% url 'grievance_update' id=message.id %}" class="bg-indigo-500 text-white p-2 rounded">Edit</a>
+                <a href="{% url 'grievance_delete' id=message.id %}" class="bg-red-500 text-white p-2 rounded" onclick="return confirm('Are you sure you want to delete this record?');">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <div class="p2 text-center bg-gray-100">
+        <p class="text-gray-600 py-4">No records found.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}

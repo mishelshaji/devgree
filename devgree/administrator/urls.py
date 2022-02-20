@@ -56,4 +56,8 @@ urlpatterns = [
     path("noticeboard/create/", NoticeboardCreateView.as_view(), name="noticeboard_create"),
     path("noticeboard/edit/<id>/", NoticeboardUpdateView.as_view(), name="noticeboard_edit"),
     path("noticeboard/delete/<id>/", NoticeboardDeleteView.as_view(), name="noticeboard_delete"),
+
+    path("grievance/", GrievanceListView.as_view(), name="grievance_list"),
+    path("grievance/update/<id>/", GrievanceUddateView.as_view(), name="grievance_update"),
+    path("grievance/delete/<id>/", grievance_delete, name="grievance_delete"),
 ]

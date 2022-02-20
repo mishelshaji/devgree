@@ -477,3 +477,33 @@ class NoticeboardDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMess
 
     def test_func(self):
         return self.request.user.admin or self.request.user.staff
+
+class GrievanceListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Grievance
+    template_name = "administrator/grievance/list.html"
+    queryset = Grievance.objects.all().select_related('department')
+
+    def test_func(self):
+        return self.request.user.admin
+
+class GrievanceUddateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+    model = Grievance
+    form_class = GrievanceUpdateForm
+    template_name = "administrator/grievance/create.html"
+    success_url = reverse_lazy('grievance_list')
+    success_message = "The grievance has been updated successfully."
+    pk_url_kwarg = 'id'
+    
+    def get_context_data(self, **kwargs):
+        context = super(GrievanceUddateView, self).get_context_data(**kwargs)
+        context["grievance"] = get_object_or_404(Grievance, id=self.kwargs['id'])
+        return context
+
+    def test_func(self):
+        return self.request.user.admin
+
+def grievance_delete(request, id):
+    grievance = get_object_or_404(Grievance, id=id)
+    grievance.delete()
+    messages.success(request, 'The grievance has been deleted successfully')
+    return redirect('grievance_list')

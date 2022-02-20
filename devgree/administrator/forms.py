@@ -81,3 +81,37 @@ class ClassRoomTeacherAddForm(ModelForm):
     class Meta:
         model = ClassRoomTeachers
         fields = '__all__'
+
+class ClassroomMessageForm(ModelForm):
+    class Meta:
+        model = ClassroomMessage
+        fields = ['message']
+        widgets = {
+            'message': forms.Textarea(attrs={'rows': 3}),
+        }
+
+class GrievanceCreateForm(ModelForm):
+    class Meta:
+        model = Grievance
+        fields = ['name', 'email', 'subject', 'message', 'phone', 'department', 'created_by']
+        widgets = {
+            'message': forms.Textarea(attrs={'rows': 3}),
+        }
+
+class GrievanceUpdateForm(ModelForm):
+    class Meta:
+        model = Grievance
+        fields = ['status', 'response']
+        widgets = {
+            'response': forms.Textarea(attrs={'rows': 3, 'class': 'w-full'}),
+            'status': forms.Select(attrs={'class': 'w-full'}),
+        }
+
+class GrievanceViewForm(ModelForm):
+    class Meta:
+        model = Grievance
+        fields = '__all__'
+        widgets = {
+            'message': forms.Textarea(attrs={'rows': 3}),
+            'response': forms.Textarea(attrs={'rows': 3}),
+        }

@@ -1,3 +1,4 @@
+from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, render
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import login, authenticate, logout
@@ -23,9 +24,12 @@ def user_login(request):
                     return redirect('/administrator')
                 elif user.staff:
                     return redirect('/staff')
+                else:
+                    return redirect('/student')
             return render(request, 'accounts/login.html', {'form': form})
         else:
             return render(request, 'accounts/login.html', {'form': form})
+    
 
 def user_logout(request):
     logout(request)

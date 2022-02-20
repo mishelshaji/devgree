@@ -1,0 +1,110 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="grid grid-cols-3 rounded font-bold">
+        <div
+            class="bg-gray-100 flex justify-center py-2 border hover:bg-gray-200 transition rounded-tl-md rounded-bl-md">
+            <a href="" class="text-center">
+                <ion-icon name="chatbubbles-outline"></ion-icon>
+                Messages
+            </a>
+        </div>
+        <div class="bg-gray-100 flex justify-center py-2 border hover:bg-gray-200 transition">
+            <a href="">
+                <ion-icon name="school-outline"></ion-icon>
+                Students
+            </a>
+        </div>
+        <div
+            class="bg-gray-100 flex justify-center py-2 border hover:bg-gray-200 transition rounded-tr-md rounded-br-md">
+            <a href="">
+                <ion-icon name="person-outline"></ion-icon>
+                Teachers
+            </a>
+        </div>
+    </div>
+
+
+    <div class="rounded border background-gray-100 shadow p-4 mt-5">
+        <form method="post">
+            {{ form.message }}
+            <div class="text-red-600">
+                {{ form.message.errors.as_ul }}
+            </div>
+            <div class="flex mt-2">
+                {% csrf_token %}
+                <button type="submit" class="bg-indigo-600 p-2 rounded text-white ml-auto">
+                    <ion-icon name="send-outline"></ion-icon>
+                    Send Message
+                </button>
+            </div>
+        </form>
+    </div>
+
+    
+    {% if object_list %}
+    {% for message in object_list %}
+    <div class="border rounded shadow p-4 my-4">
+        <div class="d-flex">
+            <div class="ml-auto block">
+                <div class="text-gray-600">
+                    <span>
+                        <ion-icon name="person-outline"></ion-icon>
+                        {{ message.user.get_full_name }}
+                    </span>
+                    <span>
+                        <ion-icon name="time-outline"></ion-icon>
+                        {{ message.created_on }}
+                    </span>
+                    
+                    {% if user.staff %}
+                    <span class="ml-2">
+                        {% if message.is_pinned %}
+                        <a href="" class="text-green-600">
+                            <ion-icon name="bookmark-outline"></ion-icon>
+                        </a>
+                        {% else %}
+                        <a href="" class="text-indigo-600">
+                            <ion-icon name="bookmark-outline"></ion-icon>
+                        </a>
+                        {% endif %}
+                    </span>
+                    {% endif %}
+                        
+                </div>
+            </div>
+        </div>
+        {% autoescape off %}
+            <div class="border rounded p-4">
+                {{ message.message }}
+            </div>
+        {% endautoescape %}
+    </div>
+    {% endfor %}
+        
+        
+    {% endif %}
+        
+</div>
+
+
+<script src="{% static 'assets/js/ckeditor.js' %}"></script>
+<script>
+    document.querySelector('#id_message').removeAttribute('required');
+    ClassicEditor
+        .create(document.querySelector('#id_message'), {
+            licenseKey: '',
+        })
+        .then(editor => {
+            window.editor = editor;
+        })
+        .catch(error => {
+            console.error('Oops, something went wrong!');
+            console.error('Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:');
+            console.warn('Build id: cplm8a4kitvx-o4bffjm7j3li');
+            console.error(error);
+        });
+</script>
+{% endblock content %}

@@ -176,8 +176,8 @@ class ClassRoom(models.Model):
     name = models.CharField(max_length=100, unique=True)
     course = models.ForeignKey(to=Course, on_delete=models.CASCADE)
     semester = models.IntegerField(choices=SEMESTERS)
-    created_on = models.DateField(auto_now_add=True)
-    updated_on = models.DateField(auto_now=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to='classroom_images', blank=True, null=True)
 
 class ClassRoomTeachers(models.Model):
@@ -187,10 +187,43 @@ class ClassRoomTeachers(models.Model):
     created_on = models.DateField(auto_now_add=True)
     updated_on = models.DateField(auto_now=True)
 
+class ClassroomMessage(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    classroom = models.ForeignKey(to=ClassRoom, on_delete=models.CASCADE)
+    message = models.TextField(max_length=25000)
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    is_pinned = models.BooleanField(default=False)
+    created_on = models.DateField(auto_now_add=True)
+    updated_on = models.DateField(auto_now=True)
+
 class Noticeboard(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100, unique=True)
     body = models.TextField()
     department = models.ForeignKey(to=Department,on_delete=models.CASCADE, blank=True, null=True)
+    created_on = models.DateField(auto_now_add=True)
+    updated_on = models.DateField(auto_now=True)
+
+class Grievance(models.Model):
+    STATUS = (
+        ('Pending', 'Pending'),
+        ('Resolved', 'Resolved'),
+        ('Rejected', 'Rejected')
+    )
+    CREATED_BY = (
+        ('Student', 'Student'),
+        ('Staff', 'Staff'),
+        ('Parent', 'Parent')
+    )
+    id = models.AutoField(primary_key=True)
+    department = models.ForeignKey(to=Department,on_delete=models.CASCADE, blank=True, null=True)
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    phone = models.CharField(max_length=15)
+    subject = models.CharField(max_length=100)
+    message = models.TextField()
+    status = models.CharField(max_length=25, choices=STATUS, default='Pending')
+    response = models.TextField(null=True, blank=True)
+    created_by = models.CharField(max_length=25, choices=CREATED_BY, default='Student')
     created_on = models.DateField(auto_now_add=True)
     updated_on = models.DateField(auto_now=True)
