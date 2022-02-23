@@ -68,6 +68,28 @@ class BookingForm(ModelForm):
             'booked_to': forms.DateInput(attrs={'type': 'date'}),
             'remarks': forms.Textarea(attrs={'rows': 3}),
         }
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        room = self.cleaned_data.get('room')
+        booked_on = cleaned_data.get("booked_on")
+        booked_from = cleaned_data.get('booked_from')
+        booked_to = cleaned_data.get('booked_to')
+
+        bookings_from_db = Booking.objects.filter(booked_from__lte=booked_from, booked_to__gte=booked_to, room_id=room)
+        if bookings_from_db.exists():
+            self.add_error('booked_from', 'Booking already exists in this date range.')
+
+        bookings_from_db = Booking.objects.filter(booked_from__lte=booked_from, booked_to__lte=booked_to, room_id=room)
+        if bookings_from_db.exists():
+            self.add_error('booked_from', 'Booking already exists in this date range.')
+
+        if booked_from > booked_to:
+            self.add_error('booked_from', 'Booking from date must be before booking to date.')
+
+        if booked_on > booked_from:
+            self.add_error('booked_on', 'It must be before the booking date.')
+        return cleaned_data
 
 class ContactForm(ModelForm):
     class Meta:

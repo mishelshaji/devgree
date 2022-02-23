@@ -8,6 +8,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
+from django.utils import timezone
+import time
+import datetime
 
 # Create your views here.
 @login_required
@@ -304,7 +307,7 @@ def delete_event(request,id ):
 class BookingListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Booking
     template_name = "administrator/booking/list.html"
-    queryset = Booking.objects.select_related('room', 'event').all()
+    queryset = Booking.objects.select_related('room', 'event').filter(booked_from__gt= timezone.now())
 
     def test_func(self):
         return self.request.user.admin or self.request.user.staff

@@ -35,7 +35,7 @@ def pin_messages(request, id):
         return HttpResponseForbidden()
     
     message = get_object_or_404(ClassroomMessage, id=id)
-    if ClassRoomTeachers.objects.filter(teacher=request.user, classroom=message.classroom_id):
+    if ClassRoomTeachers.objects.filter(teacher=request.user, classroom=message.classroom_id).first():
         if message.is_pinned:
             message.is_pinned = False
         else:
