@@ -107,7 +107,7 @@ class ClassRoomTeacherAddForm(ModelForm):
 class ClassroomMessageForm(ModelForm):
     class Meta:
         model = ClassroomMessage
-        fields = ['message']
+        fields = ['message', 'file']
         widgets = {
             'message': forms.Textarea(attrs={'rows': 3}),
         }

@@ -18,7 +18,7 @@ def home(request, id):
         context['form'] = ClassroomMessageForm()
         return render(request, 'classroom/home.html', context)
     elif request.method == "POST":
-        form = ClassroomMessageForm(request.POST)
+        form = ClassroomMessageForm(request.POST, files=request.FILES)
         if form.is_valid():
             message = form.save(commit=False)
             message.user = request.user
@@ -29,6 +29,15 @@ def home(request, id):
         else:
             context['form'] = form
             return render(request, 'classroom/home.html', context)
+
+def delete_message(request, id):
+    message = get_object_or_404(ClassroomMessage, id=id)
+    if message.user == request.user or request.user.is_staff:
+        message.delete()
+        messages.success(request, 'Message deleted successfully.')
+        return redirect('classroom_home', id=message.classroom_id)
+    else:
+        return HttpResponseForbidden()
 
 def students(request, id):
     classroom = get_object_or_404(ClassRoom, id=id)

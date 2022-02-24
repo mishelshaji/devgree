@@ -195,6 +195,7 @@ class ClassroomMessage(models.Model):
     is_pinned = models.BooleanField(default=False)
     created_on = models.DateField(auto_now_add=True)
     updated_on = models.DateField(auto_now=True)
+    file = models.FileField(upload_to='classroom_files', blank=True, null=True)
 
 class Noticeboard(models.Model):
     id = models.AutoField(primary_key=True)

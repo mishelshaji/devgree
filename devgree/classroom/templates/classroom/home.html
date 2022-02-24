@@ -6,10 +6,13 @@
     <h1 class="text-center py-4 font-bold text-xl">Classroom</h1>
     {% include 'classroom/shared/navbar.html' %}
     <div class="rounded border background-gray-100 shadow p-4 mt-5">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {{ form.message }}
             <div class="text-red-600">
                 {{ form.message.errors.as_ul }}
+            </div>
+            <div class="mt-2">
+                {{ form.file }}
             </div>
             <div class="flex mt-2">
                 {% csrf_token %}
@@ -39,14 +42,17 @@
                     {% if user.staff %}
                     <span class="ml-2">
                         {% if message.is_pinned %}
-                        <a href="" class="text-green-600">
+                        <a href="{% url 'classroom_message_pin' id=message.id %}" class="text-green-600">
                             <ion-icon name="bookmark-outline"></ion-icon>
                         </a>
                         {% else %}
-                        <a href="" class="text-indigo-600">
+                        <a href="{% url 'classroom_message_pin' id=message.id %}" class="text-indigo-600">
                             <ion-icon name="bookmark-outline"></ion-icon>
                         </a>
                         {% endif %}
+                        <a href="{% url 'classroom_message_delete' id=message.id %}" class="text-red-600" onclick="return confirm('Do you want to delete this message?');">
+                            <ion-icon name="trash"></ion-icon>
+                        </a>
                     </span>
                     {% endif %}
                         
@@ -58,6 +64,11 @@
                 {{ message.message }}
             </div>
         {% endautoescape %}
+        
+        {% if message.file %}
+            <a href="{{ message.file.url }}" class="text-indigo-600" download>Download file</a>
+        {% endif %}
+            
     </div>
     {% endfor %}
         
