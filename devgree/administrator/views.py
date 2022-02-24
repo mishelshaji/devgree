@@ -239,7 +239,19 @@ def delete_staff(request, id):
 class RoomListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Room
     template_name = "administrator/room/list.html"
-    queryset = Room.objects.all()
+    # queryset = Room.objects.all()
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['search'] = self.request.GET.get('q')
+        return context
+
+    def get_queryset(self):
+        search = self.request.GET.get('q')
+        queryset = Room.objects.all()
+        if search:
+            queryset = queryset.exclude(booking__booked_from=search)
+        return queryset
 
     def test_func(self):
         return self.request.user.admin or self.request.user.staff

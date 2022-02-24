@@ -8,6 +8,7 @@
 	<title>Devgree </title>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
 		rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 	{% tailwind_css %}
 </head>
 
@@ -18,9 +19,9 @@
 		<div class="flex flex-col flex-1 w-full">
 			{% include 'user/shared/navbar.html' %}
 			<main class="h-full overflow-y-auto">
-					{% block content %}
+				{% block content %}
 
-					{% endblock content %}
+				{% endblock content %}
 			</main>
 		</div>
 
