@@ -67,6 +67,8 @@
                 </table>
             </div>
         </div>
+        
+        {% if user.admin %}
         <hr>
         <div class="mt-2 flex justify-center">
             <a href="{% url 'room_edit' i.id %}"
@@ -79,6 +81,8 @@
                 Delete
             </a>
         </div>
+        {% endif %}
+            
     </div>
     {% endfor %}
 

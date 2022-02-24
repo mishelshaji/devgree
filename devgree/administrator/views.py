@@ -357,8 +357,14 @@ class ClassRoomListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = ClassRoom
     template_name = "administrator/classroom/list.html"
 
+    def get_queryset(self):
+        if self.request.user.admin:
+            return ClassRoom.objects.all()
+        elif self.request.user.staff:
+            return ClassRoom.objects.filter(classroomteachers__teacher_id = self.request.user.id)
+
     def test_func(self):
-        return self.request.user.admin
+        return self.request.user.staff
 
 class ClassRoomCreateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
     model = ClassRoom

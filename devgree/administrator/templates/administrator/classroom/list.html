@@ -48,6 +48,7 @@
                 <a href="{% url 'classroom_home' i.id %}" class="text-indigo-600 p-1 px-2 mx-2 hover:bg-indigo-600 hover:text-white transition rounded">
                     View
                 </a>
+                {% if user.admin %}
                 <a href="{% url 'classroom_edit' i.id %}" class="text-indigo-600 p-1 px-2 mx-2 hover:bg-indigo-600 hover:text-white transition rounded">
                     Edit
                 </a>
@@ -55,6 +56,7 @@
                 <a href="{% url 'classroomteachers_list' i.id %}" class="text-green-600 p-1 px-2 mx-2 hover:bg-green-600 hover:text-white transition rounded">
                     Teachers
                 </a>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
