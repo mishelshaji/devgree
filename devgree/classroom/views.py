@@ -12,6 +12,7 @@ from django.contrib import messages
 def home(request, id):
     context = {
         'object_list': ClassroomMessage.objects.order_by('-created_on').filter(classroom_id=id)[:100],
+        'classroom': get_object_or_404(ClassRoom, id=id),
     }
     if request.method == "GET":
         context['form'] = ClassroomMessageForm()
@@ -28,6 +29,22 @@ def home(request, id):
         else:
             context['form'] = form
             return render(request, 'classroom/home.html', context)
+
+def students(request, id):
+    classroom = get_object_or_404(ClassRoom, id=id)
+    context = {
+        'object_list': Student.objects.select_related('user').filter(course_id=classroom.course_id, semester=classroom.semester),
+        'classroom': classroom,
+    }
+    return render(request, 'classroom/students.html', context)
+
+def teachers(request, id):
+    classroom = get_object_or_404(ClassRoom, id=id)
+    context = {
+        'object_list': ClassRoomTeachers.objects.select_related('teacher').filter(classroom_id=id),
+        'classroom': classroom,
+    }
+    return render(request, 'classroom/teachers.html', context)
 
 @login_required
 def pin_messages(request, id):

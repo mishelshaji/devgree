@@ -24,8 +24,15 @@
                 <td class="border">{{ i.created_on }}</td>
                 <td class="border font-bold">
                     <a href="{% url 'noticeboard_detail' id=i.id %}" class="text-indigo-600">View</a> | 
-                    <a href="{% url 'noticeboard_edit' id=i.id %}" class="text-green-600">Edit</a> |
+                    <a href="{% url 'noticeboard_edit' id=i.id %}" class="text-green-600">Edit</a>
+                    
+                    {% if user.admin %}
+                    |
                     <a href="{% url 'noticeboard_delete' id=i.id %}" class="text-red-600" onclick="return confirm('Are you sure you want to delete this notice?');">Delete</a>
+                    {% elif user.staff_user.department == i.department and i.department %}
+                    |
+                    <a href="{% url 'noticeboard_delete' id=i.id %}" class="text-red-600" onclick="return confirm('Are you sure you want to delete this notice?');">Delete</a>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
