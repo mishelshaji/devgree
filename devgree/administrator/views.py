@@ -282,7 +282,7 @@ class EventCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Event
     form_class = EventForm
     template_name = "administrator/event/create.html"
-    success_url = reverse_lazy('event_list')
+    success_url = reverse_lazy('eventss_list')
 
     def test_func(self):
         return self.request.user.admin or self.request.user.staff
@@ -291,7 +291,7 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Event
     template_name = "administrator/event/create.html"
     form_class = EventForm
-    success_url = reverse_lazy('event_list')
+    success_url = reverse_lazy('eventss_list')
     pk_url_kwarg = 'id'
 
     def test_func(self):
