@@ -10,11 +10,17 @@
                 <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
                     aria-hidden="true"></span>
 
-                {% if user.staff %}
+                {% if user.admin %}
                 <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
                     href="{% url 'admin_home' %}">
                     <ion-icon name="home-outline"></ion-icon>
                     <span class="ml-4">Dashboard</span>
+                </a>
+                {% elif user.staff %}
+                <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+                    href="{% url 'staff_home' %}">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <span class="ml-4">Staff Home</span>
                 </a>
                 {% else %}
                 <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"

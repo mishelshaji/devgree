@@ -81,8 +81,8 @@ class BookingForm(ModelForm):
             self.add_error('booked_from', 'Booking already exists in this date range.')
 
         bookings_from_db = Booking.objects.filter(booked_from__lte=booked_from, booked_to__lte=booked_to, room_id=room)
-        if bookings_from_db.exists():
-            self.add_error('booked_from', 'Booking already exists in this date range.')
+        # if bookings_from_db.exists():
+        #     self.add_error('booked_from', 'Booking already exists in this date range.2')
 
         if booked_from > booked_to:
             self.add_error('booked_from', 'Booking from date must be before booking to date.')
