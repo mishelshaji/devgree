@@ -2,6 +2,7 @@ from django.forms import ModelForm
 from django import forms
 from .models import *
 from accounts.models import User
+import datetime
 
 class DepartmentForm(ModelForm):
     class Meta:
@@ -76,19 +77,26 @@ class BookingForm(ModelForm):
         booked_from = cleaned_data.get('booked_from')
         booked_to = cleaned_data.get('booked_to')
 
+        if booked_from is None or booked_to is None or booked_on is None:
+            raise forms.ValidationError("Please fill all the fields")
+
         bookings_from_db = Booking.objects.filter(booked_from__lte=booked_from, booked_to__gte=booked_to, room_id=room)
         if bookings_from_db.exists():
             self.add_error('booked_from', 'Booking already exists in this date range.')
-
-        bookings_from_db = Booking.objects.filter(booked_from__lte=booked_from, booked_to__lte=booked_to, room_id=room)
-        # if bookings_from_db.exists():
-        #     self.add_error('booked_from', 'Booking already exists in this date range.2')
 
         if booked_from > booked_to:
             self.add_error('booked_from', 'Booking from date must be before booking to date.')
 
         if booked_on > booked_from:
             self.add_error('booked_on', 'It must be before the booking date.')
+
+        if booked_from < datetime.datetime.now().date():
+            print(booked_from)
+            self.add_error('booked_from', 'Booking from date must be after today.')
+
+        # bookings_from_db = Booking.objects.filter(booked_from__lte=booked_from, booked_to__lte=booked_to, room_id=room)
+        # if bookings_from_db.exists():
+        #     self.add_error('booked_from', 'Booking already exists in this date range.2')
         return cleaned_data
 
 class ContactForm(ModelForm):
