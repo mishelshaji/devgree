@@ -6,7 +6,7 @@
 <hr/>
 <div class="container mt-4">
     {{ form.errors }}
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <div class="grid grid-cols-2 gap-3">
             <div class="col-span-2">
                 <label>{{ form.room_name.label }}</label>
@@ -52,7 +52,7 @@
                 {% endif %}
             </div>
 
-            <div class="col-span-2">
+            <!-- <div class="col-span-2">
                 <label>{{ form.status.label }}</label>
                 {% render_field form.status class="form-input w-full rounded" %}
 
@@ -61,7 +61,7 @@
                     {{ form.status.errors.as_ul }}
                 </div>
                 {% endif %}
-            </div>
+            </div> -->
 
             <div>
                 <label>{{ form.floor.label }}</label>
@@ -81,6 +81,17 @@
                 {% if form.block.errors %}
                 <div class="text-red-600">
                     {{ form.block.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-span-2">
+                <label>{{ form.image.label }}</label>
+                {% render_field form.image class="form-input w-full rounded" %}
+
+                {% if form.image.errors %}
+                <div class="text-red-600">
+                    {{ form.image.errors.as_ul }}
                 </div>
                 {% endif %}
             </div>

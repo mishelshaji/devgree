@@ -1,0 +1,75 @@
+{% extends 'user_master.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+<section class="w-full">
+    <div class="bg-gradient-to-b from-blue-800 to-blue-600 h-96" 
+        style="background-image: url({% static 'assets/img/college-2.jpg' %}); background-size: contain;"></div>
+    <div class="max-w-5xl mx-auto px-6 sm:px-6 lg:px-8 mb-12">
+        <div class="w-full shadow rounded p-8 sm:p-12 -mt-72" style="background-color: rgba(255, 255, 255, 0.8); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);">
+            <p class="text-3xl font-bold leading-7 text-center">Contact Us</p>
+            <form action="" method="post">
+                <div class="md:flex items-center mt-12">
+                    <div class="w-full md:w-1/2 flex flex-col">
+                        <label class="font-semibold leading-none">Name</label>
+                        <input type="text" name="name"
+                            class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200" />
+                        {% if form.name.errors %}
+                        <div class="text-red-600">
+                            {{ form.name.errors.as_ul }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="w-full md:w-1/2 flex flex-col md:ml-6 md:mt-0 mt-4">
+                        <label class="font-semibold leading-none">Email</label>
+                        <input type="email" name="email"
+                            class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200" />
+                        {% if form.email.errors %}
+                        <div class="text-red-600">
+                            {{ form.email.errors.as_ul }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="md:flex items-center mt-8">
+                    <div class="w-full flex flex-col">
+                        <label class="font-semibold leading-none">Phone</label>
+                        <input type="number" name="phone"
+                            class="leading-none text-gray-900 p-3 focus:outline-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200" />
+                            {% if form.phone.errors %}
+                            <div class="text-red-600">
+                                {{ form.phone.errors.as_ul }}
+                            </div>
+                            {% endif %}
+                    </div>
+                </div>
+                <div>
+                    <div class="w-full flex flex-col mt-8">
+                        <label class="font-semibold leading-none">Message</label>
+                        <textarea type="text" name="message"
+                            class="h-40 text-base leading-none text-gray-900 p-3 focus:oultine-none focus:border-blue-700 mt-4 bg-gray-100 border rounded border-gray-200"></textarea>
+                        {% if form.message.errors %}
+                        <div class="text-red-600">
+                            {{ form.message.errors.as_ul }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="flex items-center justify-center w-full">
+                    {% csrf_token %}
+                    <button
+                        class="mt-9 font-semibold leading-none text-white py-4 px-10 bg-blue-700 rounded hover:bg-blue-600 focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 focus:outline-none">
+                        Send message
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<section class="w-full">
+    <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3912.945051104467!2d75.83346015058173!3d11.265449653017233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba65bfae4fbd5bf%3A0xe65bc989ba1a9abc!2sDevagiri%20college%2C%20kozhikode!5e0!3m2!1sen!2sin!4v1644479706800!5m2!1sen!2sin"
+        height="450" style="border:0;" allowfullscreen="" loading="lazy" class="w-full"></iframe>
+</section>
+{% endblock content %}

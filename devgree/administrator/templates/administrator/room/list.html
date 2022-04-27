@@ -2,57 +2,100 @@
 
 {% block content %}
 
-{% if user.admin %}
 <div class="flex">
+    <div class="flex">
+        <form method="get">
+            <input type="date" name="q" class="border rounded mr-4">
+            <button type="submit" class="p-2 bg-indigo-600 rounded text-white">Check Availability</button>
+        </form>
+    </div>
+    {% if user.admin %}
     <a href="{% url 'room_create' %}" class="ml-auto bg-indigo-600 p-2 rounded text-white">
         + New Room
     </a>
+    {% endif %}
 </div>
-{% endif %}
-    
-<h1 class="font-bold text-2xl">Create New Room</h1>
+<p>
+    <small>Click the button again to clear.</small>
+</p>
+
+<h1 class="font-bold text-2xl">Rooms</h1>
 <hr />
-<div class="container mt-4">
-    <table class="table border table-striped">
-        <tr>
-            <th>Room Name</th>
-            <th>Room no</th>
-            <th>Capacity</th>
-            <th>Type</th>
-            <th>Status</th>
-            <th>Floor</th>
-            <th>Block</th>
+<div class="grid grid-cols-4 gap-3">
 
-            {% if user.admin %}
-            <th>Action</th>
-            {% endif %}
+    {% for i in object_list %}
+    <div class="shadow-lg border rounded p-2 hover:shadow-xl transition">
+        <h2 class="text-center font-semibold text-2xl">{{ i.name }}</h2>
+        <div class="mt-2">
+            <div>
+                {% if i.image %}
+                <img src="{{ i.image.url }}" class="w-full h-44" alt="Image failed to load" />
+                {% else %}
+                <img src="https://dummyimage.com/200x200.jpg?text=No%20Image" alt="Image failed to load"
+                    class="w-full h-44" />
+                {% endif %}
+            </div>
 
-        </tr>
-        {% for i in object_list %}
-        <tr>
-            <td>{{ i.room_name }}</td>
-            <td>{{ i.room_no }}</td>
-            <td>{{ i.capacity }}</td>
-            <td>{{ i.type }}</td>
-            <td>{{ i.status }}</td>
-            <td>{{ i.floor }}</td>
-            <td>{{ i.block }}</td>
+            <div class="py-2">
+                <table class="w-full">
+                    <tr>
+                        <td>Name</td>
+                        <td>:</td>
+                        <td>{{ i.room_name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Number</td>
+                        <td>:</td>
+                        <td>{{ i.room_no }}</td>
+                    </tr>
+                    <tr>
+                        <td>Capacity</td>
+                        <td>:</td>
+                        <td>{{ i.capacity }}</td>
+                    </tr>
+                    <tr>
+                        <td>Type</td>
+                        <td>:</td>
+                        <td>{{ i.type }}</td>
+                    </tr>
+                    <!-- <tr>
+                        <td>Status</td>
+                        <td>:</td>
+                        <td>{{ i.status }}</td>
+                    </tr> -->
+                    <tr>
+                        <td>Floor</td>
+                        <td>:</td>
+                        <td>{{ i.floor }}</td>
+                    </tr>
+                    <tr>
+                        <td>Block</td>
+                        <td>:</td>
+                        <td>{{ i.block }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        {% if user.admin %}
+        <hr>
+        <div class="mt-2 flex justify-center">
+            <a href="{% url 'room_edit' i.id %}"
+                class="text-indigo-600 p-1 px-2 mx-2 hover:bg-indigo-600 hover:text-white transition rounded">
+                Edit
+            </a>
+            <div class=gap-3></div>
+            <a href="{% url 'room_delete' i.id %}"
+                class="text-red-600 p-1 px-2 mx-2 hover:bg-red-600 hover:text-white transition rounded">
+                Delete
+            </a>
+        </div>
+        {% endif %}
+            
+    </div>
+    {% endfor %}
 
-            {% if user.admin %}
-            <td>
-                <a href="{% url 'room_edit' i.id %}" class="text-indigo-600">
-                    Edit
-                </a>
-                <div class=gap-3></div>
-                <a href="{% url 'room_delete' i.id %}" class="text-indigo-600">
-                    Delete
-                </a>
-
-            </td>
-            {% endif %}
-
-        </tr>
-        {% endfor %}
-    </table>
 </div>
+
+
 {% endblock content %}

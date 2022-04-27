@@ -1,0 +1,63 @@
+{% extends 'master.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<h1 class="text-3xl font-bold py-4">Edit Profile</h1>
+<div class="flex">
+    <a href="" class="p-2 text-white hover:text-white bg-indigo-600 rounded ml-auto">Change Password</a>
+</div>
+<div class="py-2">
+    <form method="post">
+        <div class="grid">
+            <div>
+                <label>First Name</label>
+                {% render_field form.first_name class="w-full rounded" %}
+                {% if form.first_name.errors %}
+                    <ul class="text-red-600">
+                        {% for error in form.first_name.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div>
+                <label>Last Name</label>
+                {% render_field form.last_name class="w-full rounded" %}
+                {% if form.last_name.errors %}
+                    <ul class="text-red-600">
+                        {% for error in form.last_name.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div>
+                <label>Email</label>
+                {% render_field form.email class="w-full rounded" %}
+                {% if form.email.errors %}
+                    <ul class="text-red-600">
+                        {% for error in form.email.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div>
+                <label>Date Joined</label>
+                <input type="text" name="" id="" class="w-full bg-gray-100 rounded" value="{{ user.date_joined }}" disabled>
+                {% if form.email.errors %}
+                    <ul class="text-red-600">
+                        {% for error in form.email.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div class="flex mt-4">
+                {% csrf_token %}
+                <button type="submit" class="p-2 text-white rounded bg-indigo-600 ml-auto">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock content %}

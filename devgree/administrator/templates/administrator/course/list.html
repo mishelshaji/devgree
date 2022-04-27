@@ -6,47 +6,41 @@
         + New Course
     </a>
 </div>
-<h1 class="font-bold text-2xl">Create New Course</h1>
+<h1 class="font-bold text-2xl">Courses</h1>
 <hr />
 <div class="container mt-4">
-    <!-- <table class="table border table-striped">
-        <tr>
-            <th>Course Name</th>
-            <th>Department Name</th>
-            <th>Level</th>
-            <th>Duration</th>
-            <th>Action</th>
-        </tr>
-        {% for i in object_list %}
-        <tr>
-            <td>{{ i.name }}</td>
-            <td>{{ i.department.name }}</td>
-            <td>{{ i.level }}</td>
-            <td>{{ i.duration }}</td>
-           
-            <td>
-                <a href="{% url 'course_edit' i.id %}" class="text-indigo-600">
-                Edit
-                </a>
-                <div class=gap-3></div>
-                <a href="{% url 'course_delete' i.id %}" class="text-indigo-600">
-                    Delete
-                    </a>
-                    
-            </td>
-        </tr>
-        {% endfor %}
-    </table> -->
-
     <div class="grid grid-cols-4 gap-3">
-
         {% for i in object_list %}
         <div class="shadow-lg border rounded p-2 hover:shadow-xl transition">
-            <h2 class="text-center font-semibold text-2xl">{{ i.name }}</h2>
+            <!-- <h2 class="text-center font-semibold text-2xl">{{ i.name }}</h2> -->
             <div class="mt-2">
-                <p>Department: {{ i.department.name }}</td>
-                <p>Level: {{ i.level }}</td>
-                <p>Duration: {{ i.duration }}</td>
+                <div>
+                    {% if i.image %}
+                    <img src="{{ i.image.url }}" class="w-full h-44" alt="Image failed to load" />
+                    {% else %}
+                    <img src="https://dummyimage.com/200x200.jpg?text={{ i.name }}" alt="Image failed to load"
+                        class="w-full h-44" />
+                        {% endif %}
+                    </div>
+                <div class="py-2">
+                    <table class="w-full">
+                        <tr>
+                            <td>Department</td>
+                            <td>:</td>
+                            <td>{{ i.department.name }}</td>
+                        </tr>
+                        <tr>
+                            <td>Level</td>
+                            <td>:</td>
+                            <td>{{ i.level }}</td>
+                        </tr>
+                        <tr>
+                            <td>Semesters</td>
+                            <td>:</td>
+                            <td>{{ i.semesters }}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
             <hr>
             <div class="mt-2 flex justify-center">
@@ -60,7 +54,6 @@
             </div>
         </div>
         {% endfor %}
-
     </div>
 </div>
 {% endblock content %}

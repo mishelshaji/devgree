@@ -1,0 +1,75 @@
+{% extends 'master.html' %}
+
+{% block content %}
+
+{% if user.admin %}
+<div class="flex">
+    <a href="{% url 'classroom_create' %}" class="ml-auto bg-indigo-600 p-2 rounded text-white">
+        + New Classroom
+    </a>
+</div>
+{% endif %}
+    
+<h1 class="font-bold text-2xl">Classrooms</h1>
+<hr />
+<div class="container mt-4">
+    
+    {% if object_list %}
+    <div class="grid grid-cols-4 gap-3">
+        {% for i in object_list %}
+        <div class="shadow-lg border rounded p-2 hover:shadow-xl transition">
+            <!-- <h2 class="text-center font-semibold text-2xl">{{ i.name }}</h2> -->
+            <div class="mt-2">
+                <div>
+                    {% if i.image %}
+                    <img src="{{ i.image.url }}" class="w-full h-44" alt="Image failed to load" />
+                    {% else %}
+                    <img src="https://dummyimage.com/200x200.jpg?text={{ i.name }}" alt="Image failed to load" class="w-full h-44" />
+                    {% endif %}
+                    </div>
+                <div class="py-2">
+                    <table class="w-full">
+                        <tr>
+                            <td>Name</td>
+                            <td>:</td>
+                            <td>{{ i.name }}</td>
+                        </tr>
+                        <tr>
+                            <td>Course</td>
+                            <td>:</td>
+                            <td>{{ i.course.name }}</td>
+                        </tr>
+                        <tr>
+                            <td>Semester</td>
+                            <td>:</td>
+                            <td>{{ i.semester }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <hr>
+            <div class="mt-2 flex justify-center">
+                <a href="{% url 'classroom_home' i.id %}" class="text-indigo-600 p-1 px-2 mx-2 hover:bg-indigo-600 hover:text-white transition rounded">
+                    View
+                </a>
+                {% if user.admin %}
+                <a href="{% url 'classroom_edit' i.id %}" class="text-indigo-600 p-1 px-2 mx-2 hover:bg-indigo-600 hover:text-white transition rounded">
+                    Edit
+                </a>
+                <div class=gap-3></div>
+                <a href="{% url 'classroomteachers_list' i.id %}" class="text-green-600 p-1 px-2 mx-2 hover:bg-green-600 hover:text-white transition rounded">
+                    Teachers
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <div class="px-2 py-4 bg-gray-100 rounded">
+            Please add a classroom first.
+        </div>
+    {% endif %}
+        
+</div>
+{% endblock content %}

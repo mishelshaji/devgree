@@ -1,3 +1,4 @@
+from email.mime import image
 from django.db import models
 from accounts.models import User
 
@@ -63,7 +64,7 @@ class Student(models.Model):
     register_number = models.CharField(max_length=20, unique=True)
     roll_number = models.CharField(max_length=20, unique=True)
     semester = models.IntegerField(choices=SEMESTERS)
-
+    image = models.ImageField(upload_to='student_images', blank=True, null=True)
 
 class Staff(models.Model):
     BLOOD_GROUPS = (
@@ -126,6 +127,7 @@ class Room(models.Model):
     status = models.CharField(max_length=25, choices=STATUS, blank=True, null=True)
     floor = models.IntegerField(blank=True, choices=FLOOR)
     block = models.CharField(max_length=10, choices=BLOCK, blank=True, null=True)
+    image = models.ImageField(upload_to='room_images', blank=True, null=True)
 
     def __str__(self):
         return self.room_name
@@ -150,4 +152,79 @@ class Booking(models.Model):
     booked_to = models.DateField(blank=True, null=True)
     event = models.ForeignKey(to=Event,on_delete=models.CASCADE)
     remarks = models.CharField(max_length = 250, blank=True, null=True)
-    
+
+class Contact(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, unique=True)
+    email = models.EmailField(max_length=100, unique=True)
+    phone = models.CharField(max_length=15, unique=True)
+    message = models.CharField(max_length = 250)
+
+class ClassRoom(models.Model):
+    SEMESTERS = (
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+        (6, '6'),
+        (7, '7'),
+        (8, '8'),
+    )
+
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, unique=True)
+    course = models.ForeignKey(to=Course, on_delete=models.CASCADE)
+    semester = models.IntegerField(choices=SEMESTERS)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+    image = models.ImageField(upload_to='classroom_images', blank=True, null=True)
+
+class ClassRoomTeachers(models.Model):
+    id = models.AutoField(primary_key=True)
+    classroom = models.ForeignKey(to=ClassRoom, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(to=User, limit_choices_to={'staff': True}, on_delete=models.CASCADE)
+    created_on = models.DateField(auto_now_add=True)
+    updated_on = models.DateField(auto_now=True)
+
+class ClassroomMessage(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    classroom = models.ForeignKey(to=ClassRoom, on_delete=models.CASCADE)
+    message = models.TextField(max_length=25000)
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    is_pinned = models.BooleanField(default=False)
+    created_on = models.DateField(auto_now_add=True)
+    updated_on = models.DateField(auto_now=True)
+    file = models.FileField(upload_to='classroom_files', blank=True, null=True)
+
+class Noticeboard(models.Model):
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=100, unique=True)
+    body = models.TextField()
+    department = models.ForeignKey(to=Department,on_delete=models.CASCADE, blank=True, null=True)
+    created_on = models.DateField(auto_now_add=True)
+    updated_on = models.DateField(auto_now=True)
+
+class Grievance(models.Model):
+    STATUS = (
+        ('Pending', 'Pending'),
+        ('Resolved', 'Resolved'),
+        ('Rejected', 'Rejected')
+    )
+    CREATED_BY = (
+        ('Student', 'Student'),
+        ('Staff', 'Staff'),
+        ('Parent', 'Parent')
+    )
+    id = models.AutoField(primary_key=True)
+    department = models.ForeignKey(to=Department,on_delete=models.CASCADE, blank=True, null=True)
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    phone = models.CharField(max_length=15)
+    subject = models.CharField(max_length=100)
+    message = models.TextField()
+    status = models.CharField(max_length=25, choices=STATUS, default='Pending')
+    response = models.TextField(null=True, blank=True)
+    created_by = models.CharField(max_length=25, choices=CREATED_BY, default='Student')
+    created_on = models.DateField(auto_now_add=True)
+    updated_on = models.DateField(auto_now=True)

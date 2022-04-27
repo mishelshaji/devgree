@@ -1,16 +1,29 @@
 from django.shortcuts import redirect, render, get_object_or_404
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from django.views.generic import CreateView, ListView, UpdateView, DetailView, DeleteView
 from .models import *
 from .forms import *
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Q
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
+from django.utils import timezone
+import time
+import datetime
 
 # Create your views here.
 @login_required
 @user_passes_test(lambda u: u.admin)
 def admin_home(request):
-    return render(request, 'administrator/home.html')
+    context = {
+        'students_count': Student.objects.count(),
+        'departments_count': Department.objects.count(),
+        'courses_count': Course.objects.count(),
+        'staff_count': User.objects.filter(staff=True).count(),
+        'contact_requests': Contact.objects.all(),
+    }
+    return render(request, 'administrator/home.html', context)
 
 class DepartmentListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Department
@@ -76,6 +89,13 @@ class StudentListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Student
     template_name = "administrator/student/list.html"
 
+    def get_queryset(self):
+        queryset = Student.objects.select_related('user')
+        search = self.request.GET.get('s', None)
+        if search:
+            queryset = queryset.filter(Q(user__email__icontains=search) | Q(register_number__icontains=search) | Q(roll_number__icontains=search))
+        return queryset
+
     def test_func(self):
         return self.request.user.admin or self.request.user.staff
 
@@ -92,7 +112,7 @@ def create_student(request):
         return render(request, 'administrator/student/create.html', context)
     elif request.method == 'POST':
         user_form = UserCreationFormWithoutPassword(request.POST)
-        form = StudentCreationForm(request.POST)
+        form = StudentCreationForm(request.POST, files=request.FILES)
         if user_form.is_valid() and form.is_valid():
             user = user_form.save(commit=False)
             user.set_password(request.POST['register_number'])
@@ -122,7 +142,7 @@ def update_student(request,id):
         return render(request, 'administrator/student/create.html', context)
     elif request.method == 'POST':
         user_form = UserCreationFormWithoutPassword(data=request.POST, instance=student.user)
-        form = StudentCreationForm(data=request.POST, instance=student)
+        form = StudentCreationForm(data=request.POST, instance=student, files=request.FILES)
         if user_form.is_valid() and form.is_valid():
             user_form.save()
             form.save()
@@ -144,6 +164,7 @@ def delete_student(request, id):
 class StaffListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Staff
     template_name = "administrator/staff/list.html"
+    queryset = Staff.objects.select_related('user')
 
     def test_func(self):
         return self.request.user.admin
@@ -218,7 +239,19 @@ def delete_staff(request, id):
 class RoomListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Room
     template_name = "administrator/room/list.html"
-    queryset = Room.objects.all()
+    # queryset = Room.objects.all()
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['search'] = self.request.GET.get('q')
+        return context
+
+    def get_queryset(self):
+        search = self.request.GET.get('q')
+        queryset = Room.objects.all()
+        if search:
+            queryset = queryset.exclude(booking__booked_from=search)
+        return queryset
 
     def test_func(self):
         return self.request.user.admin or self.request.user.staff
@@ -261,7 +294,7 @@ class EventCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Event
     form_class = EventForm
     template_name = "administrator/event/create.html"
-    success_url = reverse_lazy('event_list')
+    success_url = reverse_lazy('eventss_list')
 
     def test_func(self):
         return self.request.user.admin or self.request.user.staff
@@ -270,7 +303,7 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Event
     template_name = "administrator/event/create.html"
     form_class = EventForm
-    success_url = reverse_lazy('event_list')
+    success_url = reverse_lazy('eventss_list')
     pk_url_kwarg = 'id'
 
     def test_func(self):
@@ -286,7 +319,7 @@ def delete_event(request,id ):
 class BookingListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Booking
     template_name = "administrator/booking/list.html"
-    queryset = Booking.objects.select_related('room', 'event').all()
+    queryset = Booking.objects.select_related('room', 'event').filter(booked_from__gt= timezone.now())
 
     def test_func(self):
         return self.request.user.admin or self.request.user.staff
@@ -316,3 +349,182 @@ def delete_booking(request, id):
     booking= get_object_or_404(Booking,id=id)
     booking.delete()
     return redirect('booking_list')
+
+class ContactUsListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Contact
+    template_name = "administrator/contactus/list.html"
+    queryset = Contact.objects.all()
+
+    def test_func(self):
+        return self.request.user.admin
+
+@login_required
+@user_passes_test(lambda u: u.admin)
+def contactus_delete(request, id):
+    contactus= get_object_or_404(Contact,id=id)
+    contactus.delete()
+    return redirect('contact_list')
+
+class ClassRoomListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = ClassRoom
+    template_name = "administrator/classroom/list.html"
+
+    def get_queryset(self):
+        if self.request.user.admin:
+            return ClassRoom.objects.all()
+        elif self.request.user.staff:
+            return ClassRoom.objects.filter(classroomteachers__teacher_id = self.request.user.id)
+
+    def test_func(self):
+        return self.request.user.staff
+
+class ClassRoomCreateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
+    model = ClassRoom
+    fields = '__all__'
+    template_name = "administrator/classroom/create.html"
+    success_url = reverse_lazy('classroom_list')
+    success_message = "The classroom has been created successfully"
+
+    def test_func(self):
+        return self.request.user.admin
+
+class ClassRoomUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+    model = ClassRoom
+    fields = '__all__'
+    template_name = "administrator/classroom/create.html"
+    success_url = reverse_lazy('classroom_list')
+    success_message = "The classroom has been updated successfully"
+    pk_url_kwarg = 'id'
+
+    def test_func(self):
+        return self.request.user.admin
+
+class ClassRoomTeachersListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = ClassRoomTeachers
+    template_name = "administrator/classroomteachers/list.html"
+
+    def get_queryset(self):
+        queryset = super(ClassRoomTeachersListView, self).get_queryset()
+        queryset = queryset.filter(classroom_id=self.kwargs['id'])
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super(ClassRoomTeachersListView, self).get_context_data(**kwargs)
+        context["classroom_id"] = self.kwargs['id']
+        context["classroom"] = get_object_or_404(ClassRoom, id=self.kwargs['id'])
+        return context
+
+    def test_func(self):
+        return self.request.user.admin
+
+def add_classroom_teacher_list(request, id):
+    if request.method == 'GET':
+        classroom_id = id
+        teachers = User.objects.filter(staff=True)
+        existing_teachers = ClassRoomTeachers.objects.filter(classroom_id=classroom_id)
+        for i in existing_teachers:
+            teachers = teachers.exclude(id=i.teacher_id)
+        context = {
+            'teachers': teachers,
+            'selected_classroom': ClassRoom.objects.get(id=classroom_id)
+        }
+        return render(request, 'administrator/classroomteachers/add.html', context)
+
+def classroom_teacher_confirm_add(request, classroom_id, teacher_id):
+    teacher = get_object_or_404(User, id=teacher_id)
+    classroom = get_object_or_404(ClassRoom, id=classroom_id)
+
+    if ClassRoomTeachers.objects.filter(classroom=classroom, teacher_id=teacher_id):
+        messages.error(request, "Teacher already exists")
+        return redirect('classroomteachers_list', id=classroom_id)
+
+    classroom_teacher = ClassRoomTeachers(classroom=classroom, teacher=teacher)
+    classroom_teacher.save()
+    messages.success(request, 'The teacher has been added successfully')
+    return redirect('classroomteachers_list', id=classroom_id)
+
+def remove_classroom_teacher(request, id):
+    classroom_teacher = get_object_or_404(ClassRoomTeachers, id=id)
+    classroom_teacher.delete()
+    messages.success(request, 'The teacher has been removed successfully')
+    return redirect('classroomteachers_list', id=classroom_teacher.classroom_id)
+
+class NoticeboardListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Noticeboard
+    template_name = "administrator/noticeboard/list.html"
+    queryset = Noticeboard.objects.all().select_related('department')
+
+    def test_func(self):
+        return self.request.user.admin or self.request.user.staff
+
+class NoticeboardDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Noticeboard
+    template_name = "administrator/noticeboard/detail.html"
+    pk_url_kwarg = 'id'
+
+    def test_func(self):
+        return self.request.user.admin or self.request.user.staff
+
+class NoticeboardCreateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, CreateView):
+    model = Noticeboard
+    fields = '__all__'
+    template_name = "administrator/noticeboard/create.html"
+    success_url = reverse_lazy('noticeboard_list')
+    success_message = "The notice has been created successfully."
+
+    def test_func(self):
+        return self.request.user.admin or self.request.user.staff
+
+class NoticeboardUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+    model = Noticeboard
+    fields = '__all__'
+    template_name = "administrator/noticeboard/create.html"
+    success_url = reverse_lazy('noticeboard_list')
+    success_message = "The notice has been updated successfully."
+    pk_url_kwarg = 'id'
+
+    def test_func(self):
+        return self.request.user.admin or self.request.user.staff
+
+class NoticeboardDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
+    model = Noticeboard
+    template_name = "administrator/noticeboard/delete.html"
+    success_url = reverse_lazy('noticeboard_list')
+    success_message = "The notice has been deleted successfully."
+    pk_url_kwarg = 'id'
+    
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
+    def test_func(self):
+        return self.request.user.admin or self.request.user.staff
+
+class GrievanceListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Grievance
+    template_name = "administrator/grievance/list.html"
+    queryset = Grievance.objects.all().select_related('department')
+
+    def test_func(self):
+        return self.request.user.admin
+
+class GrievanceUddateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+    model = Grievance
+    form_class = GrievanceUpdateForm
+    template_name = "administrator/grievance/create.html"
+    success_url = reverse_lazy('grievance_list')
+    success_message = "The grievance has been updated successfully."
+    pk_url_kwarg = 'id'
+    
+    def get_context_data(self, **kwargs):
+        context = super(GrievanceUddateView, self).get_context_data(**kwargs)
+        context["grievance"] = get_object_or_404(Grievance, id=self.kwargs['id'])
+        return context
+
+    def test_func(self):
+        return self.request.user.admin
+
+def grievance_delete(request, id):
+    grievance = get_object_or_404(Grievance, id=id)
+    grievance.delete()
+    messages.success(request, 'The grievance has been deleted successfully')
+    return redirect('grievance_list')

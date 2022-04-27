@@ -1,0 +1,23 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center py-4 font-bold text-xl">Students</h1>
+    {% include 'classroom/shared/navbar.html' %}
+    
+    {% for i in object_list %}
+    <div class="flex rounded border background-gray-100 shadow p-4 mt-2">
+        
+        {% if i.image %}
+        <img src="{{ i.image.url }}" class="rounded-full" alt="" height="25" width="25">
+        {% else %}
+        <img src="https://dummyimage.com/50x50.jpg?text={{ i.user.first_name.0 }}" class="rounded-full" height="25" width="25" alt="">
+        {% endif %}
+            
+        <span class="ml-4">{{ i.user.get_full_name }}</span>
+    </div>
+    {% endfor %}
+        
+</div>
+{% endblock content %}

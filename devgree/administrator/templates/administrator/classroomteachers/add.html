@@ -1,0 +1,34 @@
+{% extends 'master.html' %}
+
+{% block content %}
+<h1 class="font-bold text-2xl">Assign Teachers</h1>
+<hr />
+<div class="container mt-4">
+    {% if teachers %}
+    <table class="w-full border">
+        <tr class="border bg-gray-100">
+            <th class="border p-2">First Name</th>
+            <th class="border p-2">Last Name</th>
+            <th class="border p-2">Email</th>
+            <th class="border p-2">Status</th>
+            <th class="border p-2">Action</th>
+        </tr>
+        {% for teacher in teachers %}
+        <tr class="bg-white">
+            <td class="border p-2">{{ teacher.first_name }}</td>
+            <td class="border p-2">{{ teacher.last_name }}</td>
+            <td class="border p-2">{{ teacher.email }}</td>
+            <td class="border p-2">Active</td>
+            <td class="border p-2">
+                <a href="{% url 'classroomteachers_add' classroom_id=selected_classroom.id teacher_id=teacher.id %}" class="text-indigo-600 p-2 rounded" onclick="return confirm('Are you sure you want to add this teacher?');">Add To {{ selected_classroom.name }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <div class="p2 text-center bg-gray-100">
+        <p class="text-gray-600">No teachers</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}

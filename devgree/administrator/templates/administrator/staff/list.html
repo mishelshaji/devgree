@@ -7,31 +7,33 @@
     </a>
 </div>
 <h1 class="font-bold text-2xl">Staff List</h1>
-<hr/>
+<hr />
 <div class="container mt-4">
-    <table class="table border table-striped">
-        <tr>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Action</th>
-        </tr>
+    <div class="grid grid-cols-4 gap-3">
+
         {% for i in object_list %}
-        <tr>
-            <td>{{ i.user.first_name }} {{ i.user.last_name }}</td>
-            <td>{{ i.phone }}</td>
-            <td>{{ i.user.email }}</td>
-            <td>
-                <a href="{% url 'staff_edit' i.user.id %}" class="text-indigo-600">
+        <div class="shadow-lg border rounded p-2 hover:shadow-xl transition">
+            <h2 class="text-center font-semibold text-2xl">{{ i.user.first_name }}</h2>
+            <div class="mt-2">
+                <p>Name: {{ i.user.get_full_name }}</td>
+                <p>Email: {{ i.user.email }}</td>
+                <p>Phone: {{ i.phone }}</td>
+                <p>Teacher Id: {{ i.teacher_id }}</td>
+                <p>Department: {{ i.department }}</td>
+            </div>
+            <hr>
+            <div class="mt-2 flex justify-center">
+                <a href="{% url 'staff_edit' i.user_id %}" class="text-indigo-600 p-1 px-2 mx-2 hover:bg-indigo-600 hover:text-white transition rounded">
                     Edit
                 </a>
                 <div class=gap-3></div>
-                <a href="{% url 'staff_delete' i.user.id %}" class="text-red-600" onclick="return confirm('Are you sure you want to delete?')">
+                <a href="{% url 'staff_delete' i.user_id %}" class="text-red-600 p-1 px-2 mx-2 hover:bg-red-600 hover:text-white transition rounded">
                     Delete
                 </a>
-            </td>
-        </tr>
+            </div>
+        </div>
         {% endfor %}
-    </table>
+
+    </div>
 </div>
 {% endblock content %}

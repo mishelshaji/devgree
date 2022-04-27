@@ -23,7 +23,7 @@
 
                 {% if form.booked_on.errors %}
                 <div class="text-red-600">
-                    {{ form.booked_on.errorbooked_from
+                    {{ form.booked_on.errors.as_ul }}
                 </div>
                 {% endif %}
             </div>

@@ -5,7 +5,7 @@
 <h1 class="font-bold text-2xl">Student</h1>
 <hr/>
 <div class="container mt-4">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <div class="grid grid-cols-2 gap-3">
             <div>
                 <label>{{ user_form.first_name.label }}</label>
@@ -124,6 +124,17 @@
                 {% if form.address.errors %}
                 <div class="text-red-600">
                     {{ form.address.errors.as_ul }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-span-2">
+                <label>{{ form.image.label }}</label>
+                {% render_field form.image class="form-input w-full rounded" %}
+
+                {% if form.image.errors %}
+                <div class="text-red-600">
+                    {{ form.image.errors.as_ul }}
                 </div>
                 {% endif %}
             </div>

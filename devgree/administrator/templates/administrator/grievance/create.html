@@ -1,0 +1,55 @@
+{% extends 'master.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<h1 class="font-bold text-2xl">Staff</h1>
+<hr/>
+<div class="container mt-4">
+    <form method="post">
+        <div class="p-2 my-4 rounded shadow bg-gray-200">
+            <p>
+                <b>Name</b>
+                {{ grievance.name }}
+            </p>
+            <p>
+                <b>Email</b>
+                {{ grievance.email }}
+            </p>
+            <p>
+                <b>Name</b>
+                {{ grievance.email }}
+            </p>
+            <p>
+                <b>Phone</b>
+                {{ grievance.phone }}
+            </p>
+            <p>
+                <b>Department</b>
+                {{ grievance.department }}
+            </p>
+            <p>
+                <b>Created By</b>
+                {{ grievance.created_by }}
+            </p>
+            <p>
+                <b>Message</b>
+                {{ grievance.message }}
+            </p>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+            <table>
+                {{ form.as_table }}
+                <tr>
+                    <td></td>
+                    <td>
+                        <div class="flex mt-2">
+                            {% csrf_token %}
+                            <button class="ml-auto bg-indigo-600 p-2 rounded text-white">Save</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</div>
+{% endblock content %}

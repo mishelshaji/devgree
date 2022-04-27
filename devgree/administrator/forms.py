@@ -2,6 +2,7 @@ from django.forms import ModelForm
 from django import forms
 from .models import *
 from accounts.models import User
+import datetime
 
 class DepartmentForm(ModelForm):
     class Meta:
@@ -67,4 +68,80 @@ class BookingForm(ModelForm):
             'booked_from': forms.DateInput(attrs={'type': 'date'}),
             'booked_to': forms.DateInput(attrs={'type': 'date'}),
             'remarks': forms.Textarea(attrs={'rows': 3}),
-        }     
+        }
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        room = self.cleaned_data.get('room')
+        booked_on = cleaned_data.get("booked_on")
+        booked_from = cleaned_data.get('booked_from')
+        booked_to = cleaned_data.get('booked_to')
+
+        if booked_from is None or booked_to is None or booked_on is None:
+            raise forms.ValidationError("Please fill all the fields")
+
+        bookings_from_db = Booking.objects.filter(booked_from__lte=booked_from, booked_to__gte=booked_to, room_id=room)
+        if bookings_from_db.exists():
+            self.add_error('booked_from', 'Booking already exists in this date range.')
+
+        if booked_from > booked_to:
+            self.add_error('booked_from', 'Booking from date must be before booking to date.')
+
+        if booked_on > booked_from:
+            self.add_error('booked_on', 'It must be before the booking date.')
+
+        if booked_from < datetime.datetime.now().date():
+            print(booked_from)
+            self.add_error('booked_from', 'Booking from date must be after today.')
+
+        # bookings_from_db = Booking.objects.filter(booked_from__lte=booked_from, booked_to__lte=booked_to, room_id=room)
+        # if bookings_from_db.exists():
+        #     self.add_error('booked_from', 'Booking already exists in this date range.2')
+        return cleaned_data
+
+class ContactForm(ModelForm):
+    class Meta:
+        model = Contact
+        fields = '__all__'
+        widgets = {
+            'message': forms.Textarea(attrs={'rows': 3}),
+        } 
+
+class ClassRoomTeacherAddForm(ModelForm):
+    class Meta:
+        model = ClassRoomTeachers
+        fields = '__all__'
+
+class ClassroomMessageForm(ModelForm):
+    class Meta:
+        model = ClassroomMessage
+        fields = ['message', 'file']
+        widgets = {
+            'message': forms.Textarea(attrs={'rows': 3}),
+        }
+
+class GrievanceCreateForm(ModelForm):
+    class Meta:
+        model = Grievance
+        fields = ['name', 'email', 'subject', 'message', 'phone', 'department', 'created_by']
+        widgets = {
+            'message': forms.Textarea(attrs={'rows': 3}),
+        }
+
+class GrievanceUpdateForm(ModelForm):
+    class Meta:
+        model = Grievance
+        fields = ['status', 'response']
+        widgets = {
+            'response': forms.Textarea(attrs={'rows': 3, 'class': 'w-full'}),
+            'status': forms.Select(attrs={'class': 'w-full'}),
+        }
+
+class GrievanceViewForm(ModelForm):
+    class Meta:
+        model = Grievance
+        fields = '__all__'
+        widgets = {
+            'message': forms.Textarea(attrs={'rows': 3}),
+            'response': forms.Textarea(attrs={'rows': 3}),
+        }

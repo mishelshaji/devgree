@@ -19,8 +19,8 @@ urlpatterns = [
 
     path('staff/', StaffListView.as_view(), name='staff_list'),
     path('staff/create/', create_staff, name='staff_create'),
-    path('staff/edit/<id>', edit_staff, name='staff_edit'),
-    path('staff/delete/<id>', delete_staff, name='staff_delete'),
+    path('staff/edit/<id>/', edit_staff, name='staff_edit'),
+    path('staff/delete/<id>/', delete_staff, name='staff_delete'),
 
     path('room/', RoomListView.as_view(), name='room_list'),
     path('room/create/', RoomCreateView.as_view(), name='room_create'),
@@ -38,4 +38,26 @@ urlpatterns = [
     path('booking/create/', BookingCreateView.as_view(), name='booking_create'),
     path('booking/edit/<id>/', BookingUpdateView.as_view(), name='booking_edit'),
     path('booking/delete/<int:id>/', delete_booking, name='booking_delete'),
+
+    path('contact/', ContactUsListView.as_view(), name='contact_list'),
+    path('contact/delete/<int:id>/', contactus_delete, name='contact_delete'),
+
+    path('classroom/', ClassRoomListView.as_view(), name='classroom_list'),
+    path('classroom/create/', ClassRoomCreateView.as_view(), name='classroom_create'),
+    path('classroom/edit/<id>', ClassRoomUpdateView.as_view(), name='classroom_edit'),
+
+    path('classroom/teachers/<id>/', ClassRoomTeachersListView.as_view(), name='classroomteachers_list'),
+    path('classroom/teachers/create/<id>/', add_classroom_teacher_list, name='classroomteachers_add_list'),
+    path('classroom/teachers/add/confirm/<classroom_id>/<teacher_id>/', classroom_teacher_confirm_add, name='classroomteachers_add'),
+    path('classroom/teachers/delete/<id>/', remove_classroom_teacher, name='classroomteachers_delete'),
+
+    path("noticeboard/", NoticeboardListView.as_view(), name="noticeboard_list"),
+    path("noticeboard/detail/<id>/", NoticeboardDetailView.as_view(), name="noticeboard_detail"),
+    path("noticeboard/create/", NoticeboardCreateView.as_view(), name="noticeboard_create"),
+    path("noticeboard/edit/<id>/", NoticeboardUpdateView.as_view(), name="noticeboard_edit"),
+    path("noticeboard/delete/<id>/", NoticeboardDeleteView.as_view(), name="noticeboard_delete"),
+
+    path("grievance/", GrievanceListView.as_view(), name="grievance_list"),
+    path("grievance/update/<id>/", GrievanceUddateView.as_view(), name="grievance_update"),
+    path("grievance/delete/<id>/", grievance_delete, name="grievance_delete"),
 ]
